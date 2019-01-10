@@ -189,8 +189,10 @@
     <!-- feedforward -->
     <define name="PHI_DDGAIN" value="0"/>
     <define name="THETA_DDGAIN" value="0"/>
-    <define name="PSI_DDGAIN" value=" 0"/>
+    <define name="PSI_DDGAIN" value="0"/>
     
+	<define name="PSI_FFDGAIN" value="0"/>
+    	    
     <define name="PHI_AGAIN" value="0"/>
     <define name="THETA_AGAIN" value="0"/>
     <define name="PSI_AGAIN" value="0"/>
