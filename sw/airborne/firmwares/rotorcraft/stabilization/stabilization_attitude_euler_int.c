@@ -234,14 +234,14 @@ void stabilization_attitude_run(bool  in_flight)
 
   /* compute feedforward command */
   stabilization_att_ff_cmd[COMMAND_ROLL] =
-    OFFSET_AND_ROUND(stabilization_gains.dd.x * att_ref_euler_i.accel.p, 5);// +
-//    stabilization_gains.ffd.x * rate_ref_scaled.p;
+    OFFSET_AND_ROUND(stabilization_gains.dd.x * att_ref_euler_i.accel.p, 5) +
+    stabilization_gains.ffd.x * rate_ref_scaled.p;
   stabilization_att_ff_cmd[COMMAND_PITCH] =
-    OFFSET_AND_ROUND(stabilization_gains.dd.y * att_ref_euler_i.accel.q, 5);// +
-//    stabilization_gains.ffd.y * rate_ref_scaled.q;
+    OFFSET_AND_ROUND(stabilization_gains.dd.y * att_ref_euler_i.accel.q, 5) +
+    stabilization_gains.ffd.y * rate_ref_scaled.q;
   stabilization_att_ff_cmd[COMMAND_YAW] =
-    OFFSET_AND_ROUND(stabilization_gains.dd.z * att_ref_euler_i.accel.r, 5);// +
-//    stabilization_gains.ffd.z * rate_ref_scaled.r;
+    OFFSET_AND_ROUND(stabilization_gains.dd.z * att_ref_euler_i.accel.r, 5) +
+    stabilization_gains.ffd.z * rate_ref_scaled.r;
 
   /* with FFD gain of 100, reference rate of 180deg/s (3.14 rad/s)
    * INT32_RATE_FRAC = 12, CMD_SHIFT = 11

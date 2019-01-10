@@ -20,7 +20,7 @@
   <!-- FIRMWARE %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%-->
   
   <firmware name="rotorcraft">
-    <target name="ap" board="lisa_mx_2.1">
+    <target name="ap" board="lisa_mx_2.1_nimble">
       <module name="radio_control" type="ppm">
         <configure name="RADIO_CONTROL_PPM_PIN" value="SERVO6"/>
       </module>
@@ -67,7 +67,6 @@
       <define name="FILTER_CMD_PITCH_CUTOFF" value="15.0"/>
       <define name="FILTER_CMD_YAW_CUTOFF" value="10.0"/>
       <define name="STABILIZATION_ATTITUDE_SP_PSI_DELTA_LIMIT" value="0.5"/>
-      <define name="USE_FLIP_MODE" value="1"/>
     </module>
     <module name="ahrs" type="int_cmpl_quat">
       <define name="AHRS_PROPAGATE_LOW_PASS_RATES" value="FALSE"/>
@@ -182,7 +181,7 @@
     <define name="THETA_DGAIN" value="1000"/>
     <define name="THETA_IGAIN" value="0"/>
     
-    <define name="PSI_PGAIN" value="4000"/>
+    <define name="PSI_PGAIN" value="32000"/>
     <define name="PSI_DGAIN" value="0"/>
     <define name="PSI_IGAIN" value="0"/>
     
@@ -191,7 +190,7 @@
     <define name="THETA_DDGAIN" value="0"/>
     <define name="PSI_DDGAIN" value="0"/>
     
-	<define name="PSI_FFDGAIN" value="0"/>
+	<define name="PSI_FFDGAIN" value="3055"/>
     	    
     <define name="PHI_AGAIN" value="0"/>
     <define name="THETA_AGAIN" value="0"/>
