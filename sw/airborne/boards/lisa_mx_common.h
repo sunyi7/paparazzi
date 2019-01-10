@@ -149,11 +149,12 @@
 #define UART1_GPIO_TX GPIO9
 #endif /* REMAP_UART1 */
 
-#define UART2_GPIO_AF GPIO_AF7
-#define UART2_GPIO_PORT_RX GPIOA
-#define UART2_GPIO_RX GPIO3
-#define UART2_GPIO_PORT_TX GPIOA
-#define UART2_GPIO_TX GPIO2
+// commented out not to interfere with the additional ADC on the same pin
+//#define UART2_GPIO_AF GPIO_AF7
+//#define UART2_GPIO_PORT_RX GPIOA
+//#define UART2_GPIO_RX GPIO3
+//#define UART2_GPIO_PORT_TX GPIOA
+//#define UART2_GPIO_TX GPIO2
 
 #if REMAP_UART3 // For UART4 we need to remap UART 3
 #define UART3_GPIO_AF GPIO_AF7
@@ -355,12 +356,21 @@
 #define ADC_3_GPIO_PIN GPIO1
 #endif
 
+//#if USE_ADC_4
+//#define AD2_1_CHANNEL 15
+//#define ADC_4 AD2_1
+//#define ADC_4_GPIO_PORT GPIOC
+//#define ADC_4_GPIO_PIN GPIO5
+//#endif
+
+// assigning ADC_4 to pin PA3 (ADC123_IN3)
 #if USE_ADC_4
-#define AD2_1_CHANNEL 15
+#define AD2_1_CHANNEL 3
 #define ADC_4 AD2_1
-#define ADC_4_GPIO_PORT GPIOC
-#define ADC_4_GPIO_PIN GPIO5
+#define ADC_4_GPIO_PORT GPIOA
+#define ADC_4_GPIO_PIN GPIO3
 #endif
+
 
 // Internal ADC for battery enabled by default
 #ifndef USE_ADC_5
@@ -373,11 +383,19 @@
 #define ADC_5_GPIO_PIN GPIO4
 #endif
 
+//#if USE_ADC_6
+//#define AD2_2_CHANNEL 12
+//#define ADC_6 AD2_2
+//#define ADC_6_GPIO_PORT GPIOC
+//#define ADC_6_GPIO_PIN GPIO2
+//#endif
+
+// assigning ADC_6 to pin PA0 (ADC123_IN0)
 #if USE_ADC_6
-#define AD2_2_CHANNEL 12
+#define AD2_2_CHANNEL 0
 #define ADC_6 AD2_2
-#define ADC_6_GPIO_PORT GPIOC
-#define ADC_6_GPIO_PIN GPIO2
+#define ADC_6_GPIO_PORT GPIOA
+#define ADC_6_GPIO_PIN GPIO0
 #endif
 
 /* allow to define ADC_CHANNEL_VSUPPLY in the airframe file*/
@@ -466,17 +484,18 @@
 #define PWM_SERVO_4_OC_BIT 0
 #endif
 
-#if USE_PWM5
-#define PWM_SERVO_5 4
-#define PWM_SERVO_5_TIMER TIM5
-#define PWM_SERVO_5_GPIO GPIOA
-#define PWM_SERVO_5_PIN GPIO0
-#define PWM_SERVO_5_AF GPIO_AF2
-#define PWM_SERVO_5_OC TIM_OC1
-#define PWM_SERVO_5_OC_BIT (1<<0)
-#else
+// commented out not to interfere with the additional ADC on the same pin
+//#if USE_PWM5
+//#define PWM_SERVO_5 4
+//#define PWM_SERVO_5_TIMER TIM5
+//#define PWM_SERVO_5_GPIO GPIOA
+//#define PWM_SERVO_5_PIN GPIO0
+//#define PWM_SERVO_5_AF GPIO_AF2
+//#define PWM_SERVO_5_OC TIM_OC1
+//#define PWM_SERVO_5_OC_BIT (1<<0)
+//#else
 #define PWM_SERVO_5_OC_BIT 0
-#endif
+//#endif
 
 #if USE_PWM6
 #define PWM_SERVO_6 5
@@ -525,6 +544,57 @@
 /* by default activate onboard baro */
 #ifndef USE_BARO_BOARD
 #define USE_BARO_BOARD 1
+#endif
+
+/*
+ * RPM sensor
+ */
+#ifdef USE_PWM_INPUT1
+#define PWM_INPUT1_GPIO_PORT      GPIOB
+#define PWM_INPUT1_GPIO_PIN       GPIO6
+#define PWM_INPUT1_GPIO_AF        GPIO_AF2
+
+#define PWM_INPUT1_TIMER          TIM4
+#define PWM_INPUT1_CHANNEL_PERIOD TIM_IC1
+#define PWM_INPUT1_CHANNEL_DUTY   TIM_IC2
+#define PWM_INPUT1_TIMER_INPUT    TIM_IC_IN_TI1
+#define PWM_INPUT1_SLAVE_TRIG     TIM_SMCR_TS_TI1FP1
+#define PWM_INPUT1_IRQ            NVIC_TIM4_IRQ
+#define PWM_INPUT1_CC_IE          (TIM_DIER_CC1IE | TIM_DIER_CC2IE)
+#define USE_PWM_INPUT_TIM4        TRUE
+
+#ifdef PWM_INPUT1_TICKS_PER_USEC
+#define TIM4_TICKS_PER_USEC PWM_INPUT1_TICKS_PER_USEC
+#endif
+#define TIM4_PWM_INPUT_IDX        0
+#define TIM4_CC_IF_PERIOD         TIM_SR_CC1IF
+#define TIM4_CC_IF_DUTY           TIM_SR_CC2IF
+#define TIM4_CCR_PERIOD           TIM4_CCR1
+#define TIM4_CCR_DUTY             TIM4_CCR2
+#endif
+
+#ifdef USE_PWM_INPUT2
+#define PWM_INPUT2_GPIO_PORT      GPIOA
+#define PWM_INPUT2_GPIO_PIN       GPIO2
+#define PWM_INPUT2_GPIO_AF        GPIO_AF3
+
+#define PWM_INPUT2_TIMER          TIM9
+#define PWM_INPUT2_CHANNEL_PERIOD TIM_IC1
+#define PWM_INPUT2_CHANNEL_DUTY   TIM_IC2
+#define PWM_INPUT2_TIMER_INPUT    TIM_IC_IN_TI1
+#define PWM_INPUT2_SLAVE_TRIG     TIM_SMCR_TS_TI1FP1
+#define PWM_INPUT2_IRQ            NVIC_TIM1_BRK_TIM9_IRQ
+#define PWM_INPUT2_CC_IE          (TIM_DIER_CC3IE | TIM_DIER_CC4IE)
+#define USE_PWM_INPUT_TIM9        TRUE
+
+#ifdef PWM_INPUT2_TICKS_PER_USEC
+#define TIM9_TICKS_PER_USEC PWM_INPUT2_TICKS_PER_USEC
+#endif
+#define TIM9_PWM_INPUT_IDX        1
+#define TIM9_CC_IF_PERIOD         TIM_SR_CC1IF
+#define TIM9_CC_IF_DUTY           TIM_SR_CC2IF
+#define TIM9_CCR_PERIOD           TIM9_CCR1
+#define TIM9_CCR_DUTY             TIM9_CCR2
 #endif
 
 #endif /* CONFIG_LISA_MX_COMMON_H */
