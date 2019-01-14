@@ -60,7 +60,7 @@
     </module>
     
     <module name="imu" type="lisa_mx_v2.1"/>
-    <module name="gps" type="ublox"/>
+    <module name="gps" type="datalink"/>
     <module name="stabilization" type="int_euler">
       <define name="FILTER_CMD_ROLL_PITCH" value="1"/>
       <define name="FILTER_CMD_YAW" value="1"/>
@@ -81,11 +81,22 @@
   
   <!-- ACTUATORS & COMMANDS %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%-->
   <servos driver="Pwm">
-    <servo name="MOTOR_LEFT" no="1" min="1100" neutral="1100" max="1900"/> 
-      <servo name="MOTOR_RIGHT" no="0" min="1100" neutral="1100" max="1900"/>
-      <servo name="DIHEDRAL" no="3" min="1225" neutral="1475" max="1725"/>
+<!-- Matej's demo Nimble -->
+<!--    <servo name="MOTOR_LEFT" no="1" min="1100" neutral="1100" max="1900"/>-->
+<!--    <servo name="MOTOR_RIGHT" no="0" min="1100" neutral="1100" max="1900"/-->
+<!--    <servo name="DIHEDRAL" no="3" min="1225" neutral="1475" max="1725"/-->
+<!--    <servo name="WING_DEF" no="2" min="900" neutral="1500" max="2100"/-->
+	<!-- Nimble IMAV -->
+<!--	<servo name="MOTOR_LEFT" no="0" min="1100" neutral="1100" max="1900"/> -->
+<!--    <servo name="MOTOR_RIGHT" no="1" min="1100" neutral="1100" max="1900"/>-->
+<!--    <servo name="DIHEDRAL" no="3" min="1760" neutral="1510" max="1260"/>-->
+<!--<servo name="WING_DEF" no="2" min="1000" neutral="1500" max="2000"/>-->
+<!-- Diana's Nimble-->
+    <servo name="MOTOR_LEFT" no="1" min="1100" neutral="1100" max="1900"/>
+    <servo name="MOTOR_RIGHT" no="0" min="1100" neutral="1100" max="1900"/>
+    <servo name="DIHEDRAL" no="3" min="1675" neutral="1425" max="1175"/>
     <servo name="WING_DEF" no="2" min="900" neutral="1500" max="2100"/>
-  </servos>
+	  </servos>
 
 
   <commands>
@@ -98,8 +109,8 @@
   <command_laws>
     <call fun="motor_mixing_run(autopilot_get_motors_on(),FALSE,values)"/> <!-- Not used, but necessary for a succesful build -->
     <set servo="MOTOR_LEFT" value="@THRUST+0.5*@ROLL+0.1*ABS(@ROLL)"/> 
-      <set servo="MOTOR_RIGHT" value="@THRUST-0.5*@ROLL+0.1*ABS(@ROLL)"/>
-      <set servo="DIHEDRAL" value="@PITCH"/>
+    <set servo="MOTOR_RIGHT" value="@THRUST-0.5*@ROLL+0.1*ABS(@ROLL)"/>
+    <set servo="DIHEDRAL" value="@PITCH"/>
     <set servo="WING_DEF" value="@YAW"/>
   </command_laws>
   
@@ -108,7 +119,7 @@
   
   <section name="IMU" prefix="IMU_">
     <define name="BODY_TO_IMU_PHI"   value="-90." unit="deg"/>
-      <define name="BODY_TO_IMU_THETA" value="-45" unit="deg"/>
+    <define name="BODY_TO_IMU_THETA" value="-45" unit="deg"/>
     <define name="BODY_TO_IMU_PSI" value="0" unit="deg"/>
   
     <!-- MAGNETO CALIBRATION DELFT - calibration still needs to be done !!! -->
@@ -131,19 +142,25 @@
     <define name="H_Y" value="0.00278894"/>
     <define name="H_Z" value="0.92060036"/>
     <define name="USE_GPS_HEADING" value="1"/>
-    
+    <define name="HEADING_UPDATE_GPS_MIN_SPEED" value="0"/>
+        
     <!-- For vibrating airfames -->
     <define name="GRAVITY_HEURISTIC_FACTOR" value="0"/>
   </section>
   
   <section name="AUTOPILOT">
     <define name="MODE_STARTUP" value="AP_MODE_RC_DIRECT"/>
-       <define name="MODE_MANUAL" value="AP_MODE_RC_DIRECT"/>
+    <define name="MODE_MANUAL" value="AP_MODE_RC_DIRECT"/>
     <define name="MODE_AUTO1" value="AP_MODE_ATTITUDE_DIRECT"/>
-    <define name="MODE_AUTO2" value="AP_MODE_ATTITUDE_DIRECT"/>
+    <define name="MODE_AUTO2" value="AP_MODE_NAV"/>
         
     <define name="USE_THROTTLE_FOR_MOTOR_ARMING" value="TRUE"/>
     <define name="NO_RC_THRUST_LIMIT" value="TRUE"/>
+    
+
+    <define name="FAILSAFE_DESCENT_SPEED" value="1."/>
+    <define name="FAILSAFE_GROUND_DETECT" value="TRUE"/>
+    <define name="THRESHOLD_GROUND_DETECT" value="90"/>
   </section>
   
   <section name="STABILIZATION_ATTITUDE" prefix="STABILIZATION_ATTITUDE_">
@@ -185,6 +202,8 @@
     <define name="PSI_PGAIN" value="32000"/>
     <define name="PSI_DGAIN" value="0"/>
     <define name="PSI_IGAIN" value="0"/>
+<!--    <define name="PSI_DGAIN" value="6400"/-->
+<!--    <define name="PSI_IGAIN" value="1600"/-->
     
     <!-- feedforward -->
     <define name="PHI_DDGAIN" value="0"/>
@@ -199,28 +218,29 @@
   </section>
   
   <section name="INS" prefix="INS_">
-    <define name="USE_GPS_ALT" value="0"/>
-    <define name="USE_GPS_ALT_SPEED" value="0"/>
+    <define name="USE_GPS_ALT" value="1"/>
+    <define name="USE_GPS_ALT_SPEED" value="1"/>
   </section>
   
   <section name="GUIDANCE_V" prefix="GUIDANCE_V_">
-    <define name="HOVER_KP" value="276"/>
-    <define name="HOVER_KD" value="300"/>
+    <define name="HOVER_KP" value="1000"/>
+    <define name="HOVER_KD" value="200"/>
     <define name="HOVER_KI" value="100"/>
-    <define name="NOMINAL_HOVER_THROTTLE" value="0.77"/>
+    <define name="NOMINAL_HOVER_THROTTLE" value="0.83"/>
     <define name="ADAPT_THROTTLE_ENABLED" value="FALSE"/>
   </section>
   
   <section name="GUIDANCE_H" prefix="GUIDANCE_H_">
-    <define name="PGAIN" value="120"/>
-    <define name="DGAIN" value="40"/>
+    <define name="PGAIN" value="1250"/>
+    <define name="DGAIN" value="150"/>
     <define name="IGAIN" value="0"/>
-    <define name="REF_MAX_SPEED" value="0.5"/>
+    <define name="REF_MAX_SPEED" value="0.3"/>
     <define name="USE_REF" value="FALSE"/>
+    <define name="MAX_BANK" value="15" unit="deg"/>
   </section>
   
   <section name="NAVIGATION" prefix="NAV_">
-    <define name="CLIMB_VSPEED" value="1.0"/>
+    <define name="CLIMB_VSPEED" value="0.5"/>
     <define name="DESCEND_VSPEED" value="-0.5"/>
   </section>
   

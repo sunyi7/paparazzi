@@ -450,7 +450,7 @@ void run_hover_loop(bool in_flight)
 #endif
 
   /* bound the nominal command to 0.9*MAX_PPRZ */
-  Bound(guidance_v_ff_cmd, 0, 8640);
+//  Bound(guidance_v_ff_cmd, 0, 8640);
 
 
   /* our error feed back command                   */
