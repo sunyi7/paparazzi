@@ -81,21 +81,21 @@
   
   <!-- ACTUATORS & COMMANDS %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%-->
   <servos driver="Pwm">
-<!-- Matej's demo Nimble -->
-<!--    <servo name="MOTOR_LEFT" no="1" min="1100" neutral="1100" max="1900"/>-->
-<!--    <servo name="MOTOR_RIGHT" no="0" min="1100" neutral="1100" max="1900"/-->
-<!--    <servo name="DIHEDRAL" no="3" min="1225" neutral="1475" max="1725"/-->
-<!--    <servo name="WING_DEF" no="2" min="900" neutral="1500" max="2100"/-->
-	<!-- Nimble IMAV -->
-<!--	<servo name="MOTOR_LEFT" no="0" min="1100" neutral="1100" max="1900"/> -->
-<!--    <servo name="MOTOR_RIGHT" no="1" min="1100" neutral="1100" max="1900"/>-->
-<!--    <servo name="DIHEDRAL" no="3" min="1760" neutral="1510" max="1260"/>-->
-<!--<servo name="WING_DEF" no="2" min="1000" neutral="1500" max="2000"/>-->
-<!-- Diana's Nimble-->
+<!-- Matej's demo Nimble-->
     <servo name="MOTOR_LEFT" no="1" min="1100" neutral="1100" max="1900"/>
     <servo name="MOTOR_RIGHT" no="0" min="1100" neutral="1100" max="1900"/>
-    <servo name="DIHEDRAL" no="3" min="1675" neutral="1425" max="1175"/>
+    <servo name="DIHEDRAL" no="3" min="1225" neutral="1475" max="1725"/>
     <servo name="WING_DEF" no="2" min="900" neutral="1500" max="2100"/>
+<!-- Nimble IMAV -->
+<!--	<servo name="MOTOR_LEFT" no="0" min="1100" neutral="1100" max="1900"/>-->
+<!--    <servo name="MOTOR_RIGHT" no="1" min="1100" neutral="1100" max="1900"/>-->
+<!--    <servo name="DIHEDRAL" no="3" min="1760" neutral="1510" max="1260"/>-->
+<!--    <servo name="WING_DEF" no="2" min="1000" neutral="1500" max="2000"/>-->
+<!-- Diana's Nimble-->
+<!--    <servo name="MOTOR_LEFT" no="1" min="1100" neutral="1100" max="1900"/-->
+<!--    <servo name="MOTOR_RIGHT" no="0" min="1100" neutral="1100" max="1900"/-->
+<!--    <servo name="DIHEDRAL" no="3" min="1675" neutral="1425" max="1175"/-->
+<!--    <servo name="WING_DEF" no="2" min="900" neutral="1500" max="2100"/-->
 	  </servos>
 
 
