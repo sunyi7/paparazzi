@@ -25,12 +25,4 @@ DFU_ADDR = 0x8004000
 DFU_PRODUCT = Lisa/Lia
 endif
 
-include $(PAPARAZZI_SRC)/conf/boards/lisa_mx_defaults.makefile
-
-ASPIRIN_2_SPI_DEV ?= spi2
-ASPIRIN_2_SPI_SLAVE_IDX ?= SPI_SLAVE2
-
-SDLOGGER_DIRECT_SPI ?= spi1
-SDLOGGER_DIRECT_SPI_SLAVE ?= SPI_SLAVE1
-HS_LOG_SPI_DEV ?= spi1
-HS_LOG_SPI_SLAVE_IDX ?= SPI_SLAVE1 
+include $(PAPARAZZI_SRC)/conf/boards/lisa_m_defaults.makefile

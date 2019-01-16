@@ -20,8 +20,7 @@
   <!-- FIRMWARE %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%-->
   
   <firmware name="rotorcraft">
-    <target name="ap" board="lisa_mx_2.1">
-    <!--target name="ap" board="lisa_mx_2.1_nimble"-->
+    <target name="ap" board="lisa_mxs_1.0_nimble">
       <module name="radio_control" type="ppm">
         <configure name="RADIO_CONTROL_PPM_PIN" value="SERVO6"/>
       </module>

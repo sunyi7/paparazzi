@@ -9,12 +9,15 @@
 # possibilities: DFU-UTIL, SWD, STLINK
 FLASH_MODE ?= SWD
 
-RADIO_CONTROL_LED  ?= none
+#
+# default LED configuration
+#
+RADIO_CONTROL_LED  ?= 4
 BARO_LED           ?= none
-AHRS_ALIGNER_LED   ?= none
-GPS_LED            ?= none
+AHRS_ALIGNER_LED   ?= 2
+GPS_LED            ?= 3
 SYS_TIME_LED       ?= 1
-LOGGER_LED         ?= 2
+
 
 #
 # default uart configuration

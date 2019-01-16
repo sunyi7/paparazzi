@@ -1,12 +1,13 @@
 # Hey Emacs, this is a -*- makefile -*-
 #
-# lisa_mx_2.1.makefile
+# lisa_mxs_1.0_nimble.makefile
 #
-# http://wiki.paparazziuav.org/wiki/Lisa/M_v20
+# MXS 1.0 board setup for DelFly Nimble 
+# https://wiki.paparazziuav.org/wiki/Lisa/MXS_v1.0
 #
 
-BOARD=lisa_mx
-BOARD_VERSION=2.1_nimble
+BOARD=lisa_mxs
+BOARD_VERSION=1.0
 BOARD_CFG=\"boards/$(BOARD)_$(BOARD_VERSION).h\"
 
 ARCH=stm32
@@ -25,8 +26,6 @@ DFU_ADDR = 0x8004000
 DFU_PRODUCT = Lisa/Lia
 endif
 
-include $(PAPARAZZI_SRC)/conf/boards/lisa_mx_nimble.makefile
-
 ASPIRIN_2_SPI_DEV ?= spi2
 ASPIRIN_2_SPI_SLAVE_IDX ?= SPI_SLAVE2
 
@@ -34,3 +33,17 @@ SDLOGGER_DIRECT_SPI ?= spi1
 SDLOGGER_DIRECT_SPI_SLAVE ?= SPI_SLAVE1
 HS_LOG_SPI_DEV ?= spi1
 HS_LOG_SPI_SLAVE_IDX ?= SPI_SLAVE1 
+
+RADIO_CONTROL_LED  ?= none
+BARO_LED           ?= none
+AHRS_ALIGNER_LED   ?= none
+GPS_LED            ?= none
+SYS_TIME_LED       ?= 1
+LOGGER_LED         ?= 2
+
+FLASH_MODE ?= SWD_NOPWR
+
+$(TARGET).CFLAGS+=-DUSE_PWM5=0
+
+include $(PAPARAZZI_SRC)/conf/boards/lisa_mx_defaults.makefile
+
