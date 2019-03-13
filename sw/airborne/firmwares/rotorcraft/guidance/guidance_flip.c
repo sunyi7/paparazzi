@@ -43,14 +43,14 @@
 
 //// Single pitch/roll flip - reliable (light MXS Transformer)
 //
-//#define STOP_ACCELERATE_CMD_ANGLE 90
-//#define START_DECELERATE_CMD_ANGLE 255.0
-//#define START_RECOVER_CMD_ANGLE 255.0
-//#define FIRST_THRUST_LEVEL 9000
-//#define FIRST_THRUST_DURATION 0.4
-//#define FINAL_THRUST_LEVEL 9000
-//#define FINAL_THRUST_DURATION 0.5
-//#define FLIP_ROLL 1
+#define STOP_ACCELERATE_CMD_ANGLE 90
+#define START_DECELERATE_CMD_ANGLE 255.0
+#define START_RECOVER_CMD_ANGLE 255.0
+#define FIRST_THRUST_LEVEL 9000
+#define FIRST_THRUST_DURATION 0.4
+#define FINAL_THRUST_LEVEL 9000
+#define FINAL_THRUST_DURATION 0.5
+#define FLIP_ROLL 1
 
 //// Single pitch/roll flip - for heavy FPV Transformer
 //
@@ -120,16 +120,17 @@
 //#define PITCH_CMD_NOMINAL -MAX_PPRZ*2/3
 
 // Evasive maneuver - roll & pitch, angular limit, heavier IMAV DelFly for demos
-#define FIRST_THRUST_LEVEL 7000
-#define FIRST_THRUST_DURATION 0.0
-#define STRAIGHT_FLIGHT_DURATION 1.0
-#define STOP_EVADE_ANGLE 30.0
-#define FINAL_THRUST_LEVEL 6000
-#define FINAL_THRUST_DURATION 0.8
-#define EVADE_ROLL 1
-#define ROLL_DELAY 0.0
-#define PITCH_CMD_FINAL 0
-#define PITCH_CMD_NOMINAL -MAX_PPRZ*2/3
+// Here
+//#define FIRST_THRUST_LEVEL 7000
+//#define FIRST_THRUST_DURATION 0.0
+//#define STRAIGHT_FLIGHT_DURATION 1.0
+//#define STOP_EVADE_ANGLE 30.0
+//#define FINAL_THRUST_LEVEL 6000
+//#define FINAL_THRUST_DURATION 0.8
+//#define EVADE_ROLL 1
+//#define ROLL_DELAY 0.0
+//#define PITCH_CMD_FINAL 0
+//#define PITCH_CMD_NOMINAL -MAX_PPRZ*2/3
 
 //// Evasive maneuver - roll & pitch, time limit
 //#define FIRST_THRUST_LEVEL 6500
