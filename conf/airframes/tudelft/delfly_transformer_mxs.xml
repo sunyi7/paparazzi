@@ -170,6 +170,7 @@
     <!--define name="MODE_AUTO2" value="AP_MODE_FLIP"/-->
         
     <define name="USE_THROTTLE_FOR_MOTOR_ARMING" value="TRUE"/>
+    <define name="AUTOPILOT_STICK_CENTER_THRESHOLD" value="2500"/><!-- default is MAXPPRS/20-->
 <!--    <define name="USE_KILL_SWITCH_FOR_MOTOR_ARMING" value="TRUE"/-->
         <define name="NO_RC_THRUST_LIMIT" value="TRUE"/>
   </section>
