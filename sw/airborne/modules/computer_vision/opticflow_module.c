@@ -123,10 +123,10 @@ void opticflow_module_run(void)
       AbiSendMsgVELOCITY_ESTIMATE(VEL_OPTICFLOW_ID, now_ts,
                                   opticflow_result.vel_body.x,
                                   opticflow_result.vel_body.y,
-                                  opticflow_result.vel_body.z,
+                                  0.0f, //opticflow_result.vel_body.z,
                                   opticflow_result.noise_measurement,
                                   opticflow_result.noise_measurement,
-                                  opticflow_result.noise_measurement
+                                  -1.0f //opticflow_result.noise_measurement // negative value disables filter updates with OF-based vertical velocity.
                                  );
     }
     opticflow_got_result = false;
@@ -151,14 +151,12 @@ struct image_t *opticflow_module_calc(struct image_t *img)
 
   // Do the optical flow calculation
   static struct opticflow_result_t temp_result; // static so that the number of corners is kept between frames
-  bool flow_successful = opticflow_calc_frame(&opticflow, img, &temp_result);
-
-  // Copy the result if finished
-  pthread_mutex_lock(&opticflow_mutex);
-  opticflow_result = temp_result;
-  opticflow_got_result = flow_successful;
-
-  // release the mutex as we are done with editing the opticflow result
-  pthread_mutex_unlock(&opticflow_mutex);
+  if(opticflow_calc_frame(&opticflow, img, &temp_result)){
+    // Copy the result if finished
+    pthread_mutex_lock(&opticflow_mutex);
+    opticflow_result = temp_result;
+    opticflow_got_result = true;
+    pthread_mutex_unlock(&opticflow_mutex);
+  }
   return img;
 }

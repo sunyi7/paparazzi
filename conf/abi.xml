@@ -5,6 +5,7 @@
   <msg_class name="airborne">
 
     <message name="BARO_ABS" id="0">
+      <field name="stamp" type="uint32_t" unit="us"/>
       <field name="pressure" type="float" unit="Pa"/>
     </message>
 
@@ -13,6 +14,7 @@
     </message>
 
     <message name="AGL" id="2">
+      <field name="stamp" type="uint32_t" unit="us"/>
       <field name="distance" type="float" unit="m"/>
     </message>
 
@@ -116,6 +118,9 @@
       <field name="vx" type="float" unit="m/s"/>
       <field name="vy" type="float" unit="m/s"/>
       <field name="h" type="float" unit="m"/>
+      <field name="ax" type="float" unit="m/s^2"/>
+      <field name="ay" type="float" unit="m/s^2"/>
+      <field name="yawr" type="float" unit="deg/s"/>
     </message>
 
     <message name="RANGE_FORCEFIELD" id="20">
@@ -164,6 +169,39 @@
       <field name="vx" type="float" unit="m/s"/>
       <field name="vy" type="float" unit="m/s"/>
       <field name="vz" type="float" unit="m/s"/>
+    </message>
+
+    <message name="INCIDENCE" id="25">
+      <field name="flag" type="uint8_t">bit 1: AoA is updated, bit 2: sideslip is updated</field>
+      <field name="aoa" type="float" unit="rad">Angle of attack</field>
+      <field name="sideslip" type="float" unit="rad">Sideslip angle</field>
+    </message>
+
+    <message name="MANUAL_SETPOINT" id="26">
+      <field name="thrust" type="float">Radio-Control Manual Thrust Setpoint</field>
+      <field name="roll"   type="float">Radio-Control Manual Roll Setpoint</field>
+      <field name="pitch"  type="float">Radio-Control Manual Pitch Setpoint</field>
+      <field name="yaw"    type="float">Radio-Control Manual Yaw Setpoint</field>
+    </message>
+
+    <message name="VISUAL_DETECTION" id="27">
+      <field name="pixel_x"      type="int16_t">Center pixel X</field>
+      <field name="pixel_y"      type="int16_t">Center pixel Y</field>
+      <field name="pixel_width"  type="int16_t">Width in pixels</field>
+      <field name="pixel_height" type="int16_t">Height in pixels</field>
+      <field name="quality"      type="int32_t">Detection quality</field>
+      <field name="extra"        type="int16_t">Extra field for options like detector source etc</field>
+    </message>
+
+    <message name="JOYSTICK" id="28">
+      <!-- 
+           This message can be used to send command inputs from a joystick or equivalent
+           either for the control of the airframe or the control of the payload
+      -->
+      <field name="roll"      type="int16_t">Roll input in pprz_t [-9600;9600]</field>
+      <field name="pitch"     type="int16_t">Pitch input in pprz_t [-9600;9600]</field>
+      <field name="yaw"       type="int16_t">Yaw input in pprz_t [-9600;9600]</field>
+      <field name="throttle"  type="int16_t">Throttle input in pprz_t [0;9600] or [-9600;9600] (for vertical speed control for instance)</field>
     </message>
 
   </msg_class>

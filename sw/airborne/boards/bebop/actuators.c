@@ -77,7 +77,7 @@ void actuators_bebop_commit(void)
   i2c_blocking_transceive(&i2c1, &actuators_bebop.i2c_trans, actuators_bebop.i2c_trans.slave_addr, 1, 13);
 
   // Update status
-  electrical.vsupply = (actuators_bebop.i2c_trans.buf[9] + (actuators_bebop.i2c_trans.buf[8] << 8)) / 100;
+  electrical.vsupply = (float)(actuators_bebop.i2c_trans.buf[9] + (actuators_bebop.i2c_trans.buf[8] << 8)) / 1000.f;
   // The 15th bit contains saturation information, so it needs to be removed to get the rpm
   actuators_bebop.rpm_obs[0] = (actuators_bebop.i2c_trans.buf[1] + (actuators_bebop.i2c_trans.buf[0] << 8)) & ~(1<<15);
   actuators_bebop.rpm_obs[1] = (actuators_bebop.i2c_trans.buf[3] + (actuators_bebop.i2c_trans.buf[2] << 8)) & ~(1<<15);
@@ -121,7 +121,7 @@ void actuators_bebop_commit(void)
     actuators_bebop.i2c_trans.buf[6] = actuators_bebop.rpm_ref[2] & 0xFF;
     actuators_bebop.i2c_trans.buf[7] = actuators_bebop.rpm_ref[3] >> 8;
     actuators_bebop.i2c_trans.buf[8] = actuators_bebop.rpm_ref[3] & 0xFF;
-    actuators_bebop.i2c_trans.buf[9] = 0x00; //UNK?
+    actuators_bebop.i2c_trans.buf[9] = 0x00; //UNK enable security?
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wcast-qual"
     actuators_bebop.i2c_trans.buf[10] = actuators_bebop_checksum((uint8_t *)actuators_bebop.i2c_trans.buf, 9);
