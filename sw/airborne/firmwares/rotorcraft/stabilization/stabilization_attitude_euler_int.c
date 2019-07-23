@@ -300,7 +300,7 @@ void stabilization_attitude_run(bool  in_flight)
 
 #if USE_FLIP_MODE
   // If switch is flipped, set mode2 to FLIP
-  if (radio_control.values[RADIO_FLAP] > 5000 && switch_prev_state == 0) {
+  if (radio_control.values[RADIO_FLAP] > -3000 && switch_prev_state == 0) {
     autopilot_mode_auto2 = AP_MODE_FLIP;
     autopilot_set_mode(AP_MODE_FLIP);
     switch_prev_state = 1;
@@ -315,7 +315,7 @@ void stabilization_attitude_run(bool  in_flight)
     auto_roll=0;
   }
 
-  if (radio_control.values[RADIO_FLAP] < 5000) {
+  if (radio_control.values[RADIO_FLAP] < -3000) {
     switch_prev_state = 0;
   }
 #endif

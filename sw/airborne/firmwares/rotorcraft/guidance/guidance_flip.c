@@ -110,14 +110,14 @@
 //// Evasive maneuver - roll & pitch, angular limit
 //#define FIRST_THRUST_LEVEL 6500
 //#define FIRST_THRUST_DURATION 0.0
-//#define STRAIGHT_FLIGHT_DURATION 1.0
-//#define STOP_EVADE_ANGLE 30.0
+#define STRAIGHT_FLIGHT_DURATION 1.0
+#define STOP_EVADE_ANGLE 30.0
 //#define FINAL_THRUST_LEVEL 6500
 //#define FINAL_THRUST_DURATION 0.8
-//#define EVADE_ROLL 1
-//#define ROLL_DELAY 0.0
-//#define PITCH_CMD_FINAL -MAX_PPRZ/4
-//#define PITCH_CMD_NOMINAL -MAX_PPRZ*2/3
+#define EVADE_ROLL 1
+#define ROLL_DELAY 0.0
+#define PITCH_CMD_FINAL -MAX_PPRZ/4
+#define PITCH_CMD_NOMINAL -MAX_PPRZ*2/3
 
 // Evasive maneuver - roll & pitch, angular limit, heavier IMAV DelFly for demos
 // Here
@@ -310,6 +310,9 @@ void guidance_flip_enter(void)
   auto_roll = 0;
 }
 
+#include "subsystems/radio_control.h"
+
+
 void guidance_flip_run(void)
 {
   uint32_t timer;
@@ -355,7 +358,16 @@ void guidance_flip_run(void)
       stabilization_cmd[COMMAND_THRUST] = FIRST_THRUST_LEVEL; //Thrust to go up first
       timer_save = 0;
 
+
+      if (radio_control.values[RADIO_FLAP] > 3300) {
+	flip_state = 1; // flip
+      } else {
+        flip_state = 21; // evade
+      }
+
+/*
       if (timer >= BFP_OF_REAL(FIRST_THRUST_DURATION, 12)) {
+
         if (FLIP_ROLL && ~FLIP_PITCH) {
           phi_gyr = phi; // initialize the phi estimate with the current phi
           flip_state = 1;
@@ -384,14 +396,31 @@ void guidance_flip_run(void)
                   sequence_cnt = 1;
                 }
         else flip_state = 101; // return to attitude mode
-      }
+      //}
+
+*/
       break;
 
     //----------------------------------------------------------------------------------------------------------------------
     //---ROLL-FLIP----------------------------------------------------------------------------------------------------------
     //----------------------------------------------------------------------------------------------------------------------
-
     case 1:
+      flip_cmd_earth.x = 0;
+      flip_cmd_earth.y = 0;
+      stabilization_attitude_set_earth_cmd_i(&flip_cmd_earth,
+                                             heading_save);
+      stabilization_attitude_run(autopilot_in_flight());
+      hover_throttle=radio_control.values[RADIO_THROTTLE];
+      stabilization_cmd[COMMAND_THRUST] = FIRST_THRUST_LEVEL; //Thrust to go up first
+      timer_save = 0;
+
+      if (timer >= BFP_OF_REAL(FIRST_THRUST_DURATION, 12)) {
+        phi_gyr = phi; // initialize the phi estimate with the current phi
+        flip_state++;
+      }
+      break;
+
+    case 2:
       stabilization_cmd[COMMAND_ROLL]   = 7100; // Rolling command
       stabilization_cmd[COMMAND_PITCH]  = 0;
       stabilization_cmd[COMMAND_YAW]    = 0;
@@ -405,7 +434,7 @@ void guidance_flip_run(void)
       }
       break;
 
-    case 2:
+    case 3:
       stabilization_cmd[COMMAND_ROLL]   = 0;
       stabilization_cmd[COMMAND_PITCH]  = 0;
       stabilization_cmd[COMMAND_YAW]    = 0;
@@ -420,7 +449,7 @@ void guidance_flip_run(void)
       }
       break;
 
-    case 3:
+    case 4:
       stabilization_cmd[COMMAND_ROLL]   = -7100;
       stabilization_cmd[COMMAND_PITCH]  = 0;
       stabilization_cmd[COMMAND_YAW]    = 0;
@@ -440,6 +469,21 @@ void guidance_flip_run(void)
     //----------------------------------------------------------------------------------------------------------------------
 
     case 11:
+      flip_cmd_earth.x = 0;
+      flip_cmd_earth.y = 0;
+      stabilization_attitude_set_earth_cmd_i(&flip_cmd_earth,
+                                             heading_save);
+      stabilization_attitude_run(autopilot_in_flight());
+      hover_throttle=radio_control.values[RADIO_THROTTLE];
+      stabilization_cmd[COMMAND_THRUST] = FIRST_THRUST_LEVEL; //Thrust to go up first
+      timer_save = 0;
+
+      if (timer >= BFP_OF_REAL(FIRST_THRUST_DURATION, 12)) {
+        theta_gyr = theta; // initialize the theta estimate with the current theta
+        flip_state++;
+      }
+      break;
+    case 12:
       stabilization_cmd[COMMAND_ROLL]   = 0;
       stabilization_cmd[COMMAND_PITCH]  = -9600; // Pitching command
       stabilization_cmd[COMMAND_YAW]    = 0;
@@ -453,7 +497,7 @@ void guidance_flip_run(void)
       }
       break;
 
-    case 12:
+    case 13:
       stabilization_cmd[COMMAND_ROLL]   = 0;
       stabilization_cmd[COMMAND_PITCH]  = 0;
       stabilization_cmd[COMMAND_YAW]    = 0;
@@ -468,7 +512,7 @@ void guidance_flip_run(void)
       }
       break;
 
-    case 13:
+    case 14:
          stabilization_cmd[COMMAND_ROLL]   = 0;
          stabilization_cmd[COMMAND_PITCH]  = 9600;
          stabilization_cmd[COMMAND_YAW]    = 0;
@@ -487,6 +531,18 @@ void guidance_flip_run(void)
     //---EVADE-ROLL---------------------------------------------------------------------------------------------------------
     //----------------------------------------------------------------------------------------------------------------------
     case 21:
+        flip_cmd_earth.x = 0;
+        flip_cmd_earth.y = 0;
+        stabilization_attitude_set_earth_cmd_i(&flip_cmd_earth,
+                                             heading_save);
+        stabilization_attitude_run(autopilot_in_flight());
+        hover_throttle=radio_control.values[RADIO_THROTTLE];
+         stabilization_cmd[COMMAND_THRUST] = FIRST_THRUST_LEVEL; //Thrust to go up first
+        timer_save = 0;
+	flip_state++;
+	break;
+
+    case 22:
          // straight flight
          auto_pitch = PITCH_CMD_NOMINAL;
          stabilization_attitude_run(autopilot_in_flight());
@@ -496,11 +552,11 @@ void guidance_flip_run(void)
             phi_gyr = phi; // initialize the phi estimate with the current phi
             flip_state++;
             auto_pitch = 0;
-			timer_save = timer;
+	    timer_save = timer;
          }
          break;
 
-    case 22:
+    case 23:
          // Open loop manoeuver
 
     	 // Science video: R7000, P2000 ~ 90deg, more pitch/less roll for sharper turns
@@ -509,7 +565,7 @@ void guidance_flip_run(void)
          } else {
          	 stabilization_cmd[COMMAND_ROLL]   = 0;
 		 }
-         stabilization_cmd[COMMAND_PITCH]  = 500; //4000; //9600;
+         stabilization_cmd[COMMAND_PITCH]  = 2000; //4000; //9600;
          stabilization_cmd[COMMAND_YAW]    = 0;
          stabilization_cmd[COMMAND_THRUST] = 6050; // 5600 // --> Left (5600-8000/2) = 1600, right --> (5600+8000/2) = 9600
 
@@ -522,14 +578,14 @@ void guidance_flip_run(void)
                auto_pitch = 0;
              }
              else {
-               flip_state = 23;
+               flip_state = 24;
                auto_pitch = PITCH_CMD_FINAL;
              }
-			 timer_save = timer;
+	     timer_save = timer;
          }
          break;
 
-    case 23:
+    case 24:
           // recovery with straight flight
           auto_pitch = PITCH_CMD_FINAL;
           stabilization_attitude_run(autopilot_in_flight());
@@ -554,6 +610,19 @@ void guidance_flip_run(void)
           //---EVADE-ROLL-PITCH---------------------------------------------------------------------------------------------------
           //----------------------------------------------------------------------------------------------------------------------
     case 31:
+      flip_cmd_earth.x = 0;
+      flip_cmd_earth.y = 0;
+      stabilization_attitude_set_earth_cmd_i(&flip_cmd_earth,
+                                             heading_save);
+      stabilization_attitude_run(autopilot_in_flight());
+      hover_throttle=radio_control.values[RADIO_THROTTLE];
+      stabilization_cmd[COMMAND_THRUST] = FIRST_THRUST_LEVEL; //Thrust to go up first
+      timer_save = 0;
+
+      flip_state++;
+      break;
+
+    case 32:
       // straight flight
       auto_pitch = PITCH_CMD_NOMINAL;
       stabilization_attitude_run(autopilot_in_flight());
@@ -567,7 +636,7 @@ void guidance_flip_run(void)
       }
       break;
 
-    case 32:
+    case 33:
       // Open loop manoeuver
       if (timer >= BFP_OF_REAL(ROLL_DELAY, 12)) {
         stabilization_cmd[COMMAND_ROLL]   = 2730; // Rolling command (max 7100 with 6050 thrust cmd)
@@ -594,7 +663,7 @@ void guidance_flip_run(void)
       }
       break;
 
-    case 33:
+    case 34:
       // recovery with straight flight
       auto_pitch = PITCH_CMD_FINAL;
       stabilization_attitude_run(autopilot_in_flight());
@@ -796,7 +865,8 @@ void guidance_flip_run(void)
       stabilization_attitude_set_earth_cmd_i(&flip_cmd_earth,heading_save);
       stabilization_attitude_run(autopilot_in_flight());
 
-      if (EVADE_ROLL || EVADE_ROLL_PITCH) {
+      if (radio_control.values[RADIO_FLAP] <= 3300) {
+      //if (EVADE_ROLL || EVADE_ROLL_PITCH) {
          stabilization_cmd[COMMAND_YAW] = 0; // no yaw feedback also during the recovery
          stabilization_cmd[COMMAND_THRUST]=radio_control.values[RADIO_THROTTLE];
 
@@ -806,14 +876,17 @@ void guidance_flip_run(void)
          att_ref_euler_i.rate.r = 0;
          att_ref_euler_i.accel.r = 0;
          stabilization_att_sum_err.psi = 0;
+         if ((timer - timer_save) > BFP_OF_REAL(FINAL_THRUST_DURATION, 12)) {
+           flip_state++;
+         }
       } else {
-        stabilization_cmd[COMMAND_THRUST] = FINAL_THRUST_LEVEL; //Thrust to stop falling
+         stabilization_cmd[COMMAND_THRUST] = FINAL_THRUST_LEVEL; //Thrust to stop falling
+         if ((timer - timer_save) > BFP_OF_REAL(FINAL_THRUST_DURATION, 12)) {
+           flip_state++;
+         }
       }
 
-      if ((timer - timer_save) > BFP_OF_REAL(FINAL_THRUST_DURATION, 12)) {
-		     flip_state++;
-		  }
-		  break;
+      break;
 
     default:
 
