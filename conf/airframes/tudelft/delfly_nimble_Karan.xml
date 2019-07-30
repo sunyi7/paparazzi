@@ -95,11 +95,11 @@
     <servo name="WING_DEF" no="2" min="900" neutral="1500" max="2100"/>
   </servos-->
 
-<!--Modified Settings-->
+<!--Delfly Karan-->
   <servos driver="Pwm">
     <servo name="MOTOR_LEFT" no="1" min="1100" neutral="1100" max="1900"/> 
       <servo name="MOTOR_RIGHT" no="0" min="1100" neutral="1100" max="1900"/>
-      <servo name="DIHEDRAL" no="3" min="1375" neutral="1625" max="1875"/>
+      <servo name="DIHEDRAL" no="3" min="1410" neutral="1660" max="1910"/>
     <servo name="WING_DEF" no="2" min="900" neutral="1500" max="2100"/>
   </servos>
 
