@@ -172,6 +172,20 @@
 #define PULSE_DIRECTION 0 // 0 for left, 1 for right
 #define PULSE_REPETITIONS 1
 
+// // Roll doublet 3211
+// #define FIRST_THRUST_LEVEL 6500
+// #define FIRST_THRUST_DURATION 0.0
+// #define STRAIGHT_FLIGHT_DURATION 1.0
+// #define THROTTLE_FACTOR 1.0 // 1.0 for hover, increase for increasing altitude
+// #define PULSE_DURATION_1 0.25
+// #define FINAL_THRUST_LEVEL 6500
+// #define FINAL_THRUST_DURATION 0
+// #define ROLL_CMD_NOMINAL 0 //-MAX_PPRZ*30/60 // angle of 30 degrees
+// #define ROLL_CMD_DELTA -MAX_PPRZ*30/60 // 15 degree deflection
+// #define DOUBLET_3211 1
+// #define DOUBLET_3211_DIRECTION 0 // 0 for left, 1 for right
+// #define DOUBLET_3211_REPITITIONS 1
+
 
 //// Pitch sweep
 //#define FIRST_THRUST_LEVEL 6500
@@ -212,14 +226,23 @@
 #ifndef PULSE_DURATION
 #define PULSE_DURATION 0.0
 #endif
+#ifndef PULSE_DURATION_1
+#define PULSE_DURATION_1 0.0
+#endif
 #ifndef PULSE_DIRECTION
 #define PULSE_DIRECTION 0
+#endif
+#ifndef DOUBLET_3211_DIRECTION
+#define DOUBLET_3211_DIRECTION 0
 #endif
 #ifndef DOUBLET_REPETITIONS
 #define DOUBLET_REPETITIONS 1
 #endif
 #ifndef PULSE_REPETITIONS
 #define PULSE_REPETITIONS 1
+#endif
+#ifndef DOUBLET_3211_REPITITIONS
+#define DOUBLET_3211_REPITITIONS 1
 #endif
 #ifndef PITCH_CMD_NOMINAL
 #define PITCH_CMD_NOMINAL 0
@@ -278,6 +301,10 @@
 
 #ifndef ROLL_PULSE
 #define ROLL_PULSE 0
+#endif
+
+#ifndef DOUBLET_3211
+#define DOUBLET_3211 0
 #endif
 
 #ifndef PITCH_SWEEP
@@ -404,6 +431,13 @@ void guidance_flip_run(void)
                   pulse_cnt = 2;
                   sequence_cnt = 1;
                 }
+
+        else if(DOUBLET_3211) {
+                  flip_state = 81;
+                  pulse_cnt = 2;
+                  sequence_cnt = 1;
+
+        }
 
         else flip_state = 101; // return to attitude mode
       }
@@ -845,6 +879,114 @@ void guidance_flip_run(void)
             auto_roll = 0;
           }
           break;
+
+
+          //----------------------------------------------------------------------------------------------------------------------
+          //---DOUBLET_3211------------------------------------------------------------------------------------------------------
+          //----------------------------------------------------------------------------------------------------------------------
+          case 81:
+            // straight flight
+            auto_roll = ROLL_CMD_NOMINAL; //-MAX_PPRZ*2/3;
+            stabilization_attitude_run(autopilot_in_flight());
+            //      stabilization_cmd[COMMAND_THRUST]=radio_control.values[RADIO_THROTTLE];
+                  stabilization_cmd[COMMAND_THRUST]=THROTTLE_FACTOR*hover_throttle;
+
+            if ((timer - timer_save) > BFP_OF_REAL(STRAIGHT_FLIGHT_DURATION, 12)) {
+              flip_state++;
+              timer_save = timer;
+            }
+            break;
+          case 82:
+            // doublet 3*PULSE_DURATION_1
+
+            if (DOUBLET_3211_DIRECTION == 0){
+              auto_roll = ROLL_CMD_NOMINAL + ROLL_CMD_DELTA; //-MAX_PPRZ*2/3;
+            }else {
+              auto_roll = ROLL_CMD_NOMINAL - ROLL_CMD_DELTA; //-MAX_PPRZ*2/3;
+            }
+
+            stabilization_attitude_run(autopilot_in_flight());
+            //      stabilization_cmd[COMMAND_THRUST]=radio_control.values[RADIO_THROTTLE];
+                  stabilization_cmd[COMMAND_THRUST]=THROTTLE_FACTOR*hover_throttle;
+
+            if ((timer - timer_save) > BFP_OF_REAL(3*PULSE_DURATION_1, 12)) {
+              flip_state++;
+              timer_save = timer;
+            }
+            break;
+
+          case 83:
+            // doublet 2*PULSE_DURATION_1
+
+            if (DOUBLET_3211_DIRECTION == 0){
+              auto_roll = ROLL_CMD_NOMINAL - ROLL_CMD_DELTA; //-MAX_PPRZ*2/3;
+            }else {
+              auto_roll = ROLL_CMD_NOMINAL + ROLL_CMD_DELTA; //-MAX_PPRZ*2/3;
+            }
+
+            stabilization_attitude_run(autopilot_in_flight());
+            //      stabilization_cmd[COMMAND_THRUST]=radio_control.values[RADIO_THROTTLE];
+                  stabilization_cmd[COMMAND_THRUST]=THROTTLE_FACTOR*hover_throttle;
+
+            if ((timer - timer_save) > BFP_OF_REAL(2*PULSE_DURATION_1, 12)) {
+              flip_state++;
+              timer_save = timer;
+            }
+            break;
+
+          case 84:
+            // doublet 3*PULSE_DURATION_1
+
+            if (DOUBLET_3211_DIRECTION == 0){
+              auto_roll = ROLL_CMD_NOMINAL + ROLL_CMD_DELTA; //-MAX_PPRZ*2/3;
+            }else {
+              auto_roll = ROLL_CMD_NOMINAL - ROLL_CMD_DELTA; //-MAX_PPRZ*2/3;
+            }
+
+            stabilization_attitude_run(autopilot_in_flight());
+            //      stabilization_cmd[COMMAND_THRUST]=radio_control.values[RADIO_THROTTLE];
+                  stabilization_cmd[COMMAND_THRUST]=THROTTLE_FACTOR*hover_throttle;
+
+            if ((timer - timer_save) > BFP_OF_REAL(1*PULSE_DURATION_1, 12)) {
+              flip_state++;
+              timer_save = timer;
+            }
+            break;
+
+          case 85:
+            // doublet 3*PULSE_DURATION_1
+
+            if (DOUBLET_3211_DIRECTION == 0){
+              auto_roll = ROLL_CMD_NOMINAL - ROLL_CMD_DELTA; //-MAX_PPRZ*2/3;
+            }else {
+              auto_roll = ROLL_CMD_NOMINAL + ROLL_CMD_DELTA; //-MAX_PPRZ*2/3;
+            }
+
+            stabilization_attitude_run(autopilot_in_flight());
+            //      stabilization_cmd[COMMAND_THRUST]=radio_control.values[RADIO_THROTTLE];
+                  stabilization_cmd[COMMAND_THRUST]=THROTTLE_FACTOR*hover_throttle;
+
+            if ((timer - timer_save) > BFP_OF_REAL(1*PULSE_DURATION_1, 12)) {
+              flip_state++;
+              timer_save = timer;
+            }
+            break;
+
+
+          case 86:
+            // end of manoeuver
+            auto_roll = ROLL_CMD_NOMINAL; //-MAX_PPRZ*2/3;
+            stabilization_attitude_run(autopilot_in_flight());
+            //      stabilization_cmd[COMMAND_THRUST]=radio_control.values[RADIO_THROTTLE];
+                  stabilization_cmd[COMMAND_THRUST]=THROTTLE_FACTOR*hover_throttle;
+
+            if ((timer - timer_save) > BFP_OF_REAL(STRAIGHT_FLIGHT_DURATION, 12)) {
+              flip_state = 100;
+              timer_save = timer;
+              auto_roll = 0;
+            }
+            break;
+
 
     //----------------------------------------------------------------------------------------------------------------------
     //---RECOVER------------------------------------------------------------------------------------------------------------
