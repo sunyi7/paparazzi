@@ -3,6 +3,8 @@ monitor version
 # To make sure the target is not in a "strange" mode we tell BMPM to reset the
 # target using the reset pin.
 mon connect_srst enable
+#turn of the voltage sensing
+monitor tpwr enable
 # Scan for devices using SWD interface
 monitor swdp_scan
 # Attach to the first device
