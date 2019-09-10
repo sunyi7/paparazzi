@@ -359,10 +359,11 @@ void guidance_flip_run(void)
       timer_save = 0;
 
 
-      if (radio_control.values[RADIO_FLAP] > 3300) {
-	flip_state = 1; // flip
-      } else {
-        flip_state = 21; // evade
+      if (radio_control.values[RADIO_FLAP] > -3000) // maneuver triggered
+      {
+        if (radio_control.values[RADIO_GEAR] > 3000) flip_state = 1; // roll flip
+        else if (radio_control.values[RADIO_GEAR] > -3000) flip_state = 11; // pitch flip
+        else flip_state = 21; // evade
       }
 
 /*
@@ -865,7 +866,7 @@ void guidance_flip_run(void)
       stabilization_attitude_set_earth_cmd_i(&flip_cmd_earth,heading_save);
       stabilization_attitude_run(autopilot_in_flight());
 
-      if (radio_control.values[RADIO_FLAP] <= 3300) {
+      if (radio_control.values[RADIO_GEAR] <= -3000) {
       //if (EVADE_ROLL || EVADE_ROLL_PITCH) {
          stabilization_cmd[COMMAND_YAW] = 0; // no yaw feedback also during the recovery
          stabilization_cmd[COMMAND_THRUST]=radio_control.values[RADIO_THROTTLE];
