@@ -259,6 +259,11 @@ void stabilization_attitude_run(bool  in_flight)
   struct Int32Rates *body_rate = stateGetBodyRates_i();
   RATES_DIFF(rate_err, rate_ref_scaled, (*body_rate));
 
+  // simple gain scheduling for pitch D gain
+  static int32_t pitch_max = (int32_t) ANGLE_BFP_OF_REAL(STABILIZATION_ATTITUDE_SP_MAX_THETA);
+  float pitch_ref_to_max_ratio = fabs((float) att_ref_scaled.theta / (float) pitch_max);
+  // float gain_multiplier_max_ref = 2.;
+
   /* PID                  */
   stabilization_att_fb_cmd[COMMAND_ROLL] =
     stabilization_gains.p.x    * att_err.phi +
@@ -267,7 +272,7 @@ void stabilization_attitude_run(bool  in_flight)
 
   stabilization_att_fb_cmd[COMMAND_PITCH] =
     stabilization_gains.p.y    * att_err.theta +
-    stabilization_gains.d.y    * rate_err.q +
+    stabilization_gains.d.y  * (1 + 1.5*pitch_ref_to_max_ratio) * rate_err.q +
     OFFSET_AND_ROUND2((stabilization_gains.i.y  * stabilization_att_sum_err.theta), 10);
 
   stabilization_att_fb_cmd[COMMAND_YAW] =
