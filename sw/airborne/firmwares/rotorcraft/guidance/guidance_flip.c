@@ -145,31 +145,31 @@
 //#define PITCH_DOUBLET 1
 //#define DOUBLET_REPETITIONS 1
 
-// // Roll doublets
+//Roll doublets
 // #define FIRST_THRUST_LEVEL 6500
 // #define FIRST_THRUST_DURATION 0.0
-// #define STRAIGHT_FLIGHT_DURATION 0.0
+// #define STRAIGHT_FLIGHT_DURATION 1.0
 // #define THROTTLE_FACTOR 1.0
-// #define DOUBLET_DURATION 0.25
+// #define DOUBLET_DURATION 1.0
 // #define FINAL_THRUST_LEVEL 6500
 // #define FINAL_THRUST_DURATION 0
 // #define ROLL_CMD_NOMINAL -MAX_PPRZ*0/60 // start at a 0 dergree angle
-// #define ROLL_CMD_DELTA -MAX_PPRZ*15/60
+// #define ROLL_CMD_DELTA -MAX_PPRZ*30/60
 // #define ROLL_DOUBLET 1
-// #define DOUBLET_REPETITIONS 6
+// #define DOUBLET_REPETITIONS 1
 
 // Roll pulse
 #define FIRST_THRUST_LEVEL 6500
 #define FIRST_THRUST_DURATION 0.0
-#define STRAIGHT_FLIGHT_DURATION 0.0
+#define STRAIGHT_FLIGHT_DURATION 1.0
 #define THROTTLE_FACTOR 1.0 // 1.0 for hover, increase for increasing altitude
-#define PULSE_DURATION 0.5
+#define PULSE_DURATION 0.1
 #define FINAL_THRUST_LEVEL 6500
 #define FINAL_THRUST_DURATION 0
 #define ROLL_CMD_NOMINAL 0 //-MAX_PPRZ*30/60 // angle of 30 degrees
-#define ROLL_CMD_DELTA -MAX_PPRZ*30/60 // 15 degree deflection
+#define ROLL_CMD_DELTA -MAX_PPRZ*30/60 // 30 degree deflection
 #define ROLL_PULSE 1
-#define PULSE_DIRECTION 0 // 0 for left, 1 for right
+#define PULSE_DIRECTION 1 // 0 for left, 1 for right
 #define PULSE_REPETITIONS 1
 
 // // Roll doublet 3211
@@ -177,11 +177,11 @@
 // #define FIRST_THRUST_DURATION 0.0
 // #define STRAIGHT_FLIGHT_DURATION 1.0
 // #define THROTTLE_FACTOR 1.0 // 1.0 for hover, increase for increasing altitude
-// #define PULSE_DURATION_1 0.25
+// #define PULSE_DURATION_1 0.1
 // #define FINAL_THRUST_LEVEL 6500
 // #define FINAL_THRUST_DURATION 0
 // #define ROLL_CMD_NOMINAL 0 //-MAX_PPRZ*30/60 // angle of 30 degrees
-// #define ROLL_CMD_DELTA -MAX_PPRZ*30/60 // 15 degree deflection
+// #define ROLL_CMD_DELTA -MAX_PPRZ*30/60 // 30 degree deflection
 // #define DOUBLET_3211 1
 // #define DOUBLET_3211_DIRECTION 0 // 0 for left, 1 for right
 // #define DOUBLET_3211_REPITITIONS 1
@@ -327,7 +327,19 @@ pprz_t hover_throttle = 6500;
 
 uint32_t flip_counter;
 uint32_t doublet_cnt;
-uint32_t pulse_cnt;
+uint32_t pulse_cnt;// #define FIRST_THRUST_LEVEL 6500
+// #define FIRST_THRUST_DURATION 0.0
+// #define STRAIGHT_FLIGHT_DURATION 1.0
+// #define THROTTLE_FACTOR 1.0 // 1.0 for hover, increase for increasing altitude
+// #define PULSE_DURATION_1 0.25
+// #define FINAL_THRUST_LEVEL 6500
+// #define FINAL_THRUST_DURATION 0
+// #define ROLL_CMD_NOMINAL 0 //-MAX_PPRZ*30/60 // angle of 30 degrees
+// #define ROLL_CMD_DELTA -MAX_PPRZ*30/60 // 15 degree deflection
+// #define DOUBLET_3211 1
+// #define DOUBLET_3211_DIRECTION 0 // 0 for left, 1 for right
+// #define DOUBLET_3211_REPITITIONS 1
+
 uint8_t sequence_cnt;
 uint8_t flip_state;
 int32_t heading_save;
@@ -798,21 +810,23 @@ void guidance_flip_run(void)
               stabilization_cmd[COMMAND_THRUST]=THROTTLE_FACTOR*hover_throttle;
 
         if ((timer - timer_save) > BFP_OF_REAL(DOUBLET_DURATION/2, 12)) { // divided DOUBLET_DURATION with 2 instead of doublet_cnt
-          if (doublet_cnt > DOUBLET_REPETITIONS) {
-            if (sequence_cnt == 2) {
-              flip_state++;
-            }
-            else {
-              flip_state = 62;
-              doublet_cnt = 2;
-              sequence_cnt++;
-            }
-          }
-          else {
-            flip_state = 62;
-            doublet_cnt++;
-          }
+          // if (doublet_cnt > DOUBLET_REPETITIONS) {
+          //   if (sequence_cnt == 2) {
+          //     flip_state++;
+          //   }
+          //   else {
+          //     flip_state = 62;
+          //     doublet_cnt = 2;
+          //     sequence_cnt++;
+          //   }
+          // }
+          // else {
+          //   flip_state = 62;
+          //   doublet_cnt++;
+          // }
+          flip_state++;
           timer_save = timer;
+
           }
         break;
 
