@@ -172,7 +172,23 @@
 // #define PULSE_DIRECTION 1 // 0 for left, 1 for right
 // #define PULSE_REPETITIONS 1
 
-// Roll doublet 3211
+// // Roll doublet 3211
+// #define FIRST_THRUST_LEVEL 6500
+// #define FIRST_THRUST_DURATION 0.0
+// #define STRAIGHT_FLIGHT_DURATION 1.0
+// #define THROTTLE_FACTOR 1.0 // 1.0 for hover, increase for increasing altitude
+// #define PULSE_DURATION_1 0.1
+// #define FINAL_THRUST_LEVEL 6500
+// #define FINAL_THRUST_DURATION 0
+// #define ROLL_CMD_NOMINAL 0 //-MAX_PPRZ*30/60 // angle of 30 degrees
+// #define ROLL_CMD_DELTA -MAX_PPRZ*30/60 // 30 degree deflection
+// #define DOUBLET_3211 1
+// #define DOUBLET_3211_DIRECTION 0 // 0 for left, 1 for right
+// #define DOUBLET_3211_REPITITIONS 1
+// #define REVERSE_1123 1 // 0 to perform 3211, 1 to perform 1123
+
+// Roll Triplet 211
+
 #define FIRST_THRUST_LEVEL 6500
 #define FIRST_THRUST_DURATION 0.0
 #define STRAIGHT_FLIGHT_DURATION 1.0
@@ -182,11 +198,10 @@
 #define FINAL_THRUST_DURATION 0
 #define ROLL_CMD_NOMINAL 0 //-MAX_PPRZ*30/60 // angle of 30 degrees
 #define ROLL_CMD_DELTA -MAX_PPRZ*30/60 // 30 degree deflection
-#define DOUBLET_3211 1
-#define DOUBLET_3211_DIRECTION 0 // 0 for left, 1 for right
-#define DOUBLET_3211_REPITITIONS 1
-#define REVERSE_1123 1 // 0 to perform 3211, 1 to perform 1123
-
+#define ROLL_TRIPLET 1
+#define ROLL_TRIPLET_DIRECTION 0 // 0 for left, 1 for right
+#define ROLL_TRIPLET_REPITITIONS 1
+#define REVERSE_ROLL_TRIPLET 1 // 0 to perform 211, 1 to perform 112
 
 //// Pitch sweep
 //#define FIRST_THRUST_LEVEL 6500
@@ -247,6 +262,18 @@
 #endif
 #ifndef REVERSE_1123
 #define REVERSE_1123 0
+#endif
+#ifndef ROLL_TRIPLET
+#define ROLL_TRIPLET 0
+#endif
+#ifndef ROLL_TRIPLET_DIRECTION
+#define ROLL_TRIPLET_DIRECTION 0
+#endif
+#ifndef ROLL_TRIPLET_REPITITIONS
+#define ROLL_TRIPLET_REPITITIONS 1
+#endif
+#ifndef REVERSE_ROLL_TRIPLET
+#define REVERSE_ROLL_TRIPLET 0
 #endif
 #ifndef PITCH_CMD_NOMINAL
 #define PITCH_CMD_NOMINAL 0
@@ -309,6 +336,10 @@
 
 #ifndef DOUBLET_3211
 #define DOUBLET_3211 0
+#endif
+
+#ifndef ROLL_TRIPLET
+#define ROLL_TRIPLET 0
 #endif
 
 #ifndef PITCH_SWEEP
@@ -450,6 +481,13 @@ void guidance_flip_run(void)
 
         else if(DOUBLET_3211) {
                   flip_state = 81;
+                  pulse_cnt = 2;
+                  sequence_cnt = 1;
+
+        }
+
+        else if(ROLL_TRIPLET) {
+                  flip_state = 91;
                   pulse_cnt = 2;
                   sequence_cnt = 1;
 
@@ -1033,6 +1071,116 @@ void guidance_flip_run(void)
               auto_roll = 0;
             }
             break;
+
+            //----------------------------------------------------------------------------------------------------------------------
+            //---ROLL_TRIPLET------------------------------------------------------------------------------------------------------
+            //----------------------------------------------------------------------------------------------------------------------
+            case 91:
+              // straight flight
+              auto_roll = ROLL_CMD_NOMINAL; //-MAX_PPRZ*2/3;
+              stabilization_attitude_run(autopilot_in_flight());
+              //      stabilization_cmd[COMMAND_THRUST]=radio_control.values[RADIO_THROTTLE];
+                    stabilization_cmd[COMMAND_THRUST]=THROTTLE_FACTOR*hover_throttle;
+
+
+
+              if ((timer - timer_save) > BFP_OF_REAL(STRAIGHT_FLIGHT_DURATION, 12)) {
+                if (REVERSE_ROLL_TRIPLET == 1) { // perform the 112 maneuver
+                  flip_state = 94;
+                  timer_save = timer;
+                }else{
+                  flip_state++;
+                  timer_save = timer;
+                }
+              }
+              break;
+            case 92:
+              // doublet 2*PULSE_DURATION_1
+
+              if (ROLL_TRIPLET_DIRECTION == 0){
+                auto_roll = ROLL_CMD_NOMINAL + ROLL_CMD_DELTA; //-MAX_PPRZ*2/3;
+              }else {
+                auto_roll = ROLL_CMD_NOMINAL - ROLL_CMD_DELTA; //-MAX_PPRZ*2/3;
+              }
+
+              stabilization_attitude_run(autopilot_in_flight());
+              //      stabilization_cmd[COMMAND_THRUST]=radio_control.values[RADIO_THROTTLE];
+                    stabilization_cmd[COMMAND_THRUST]=THROTTLE_FACTOR*hover_throttle;
+
+
+
+              if ((timer - timer_save) > BFP_OF_REAL(2*PULSE_DURATION_1, 12)) {
+                if (REVERSE_ROLL_TRIPLET == 1) { // perform the 112 maneuver
+                  flip_state = 95;
+                  timer_save = timer;
+                }else{
+                  flip_state++;
+                  timer_save = timer;
+                }
+              }
+              break;
+
+            case 93:
+              // doublet 1*PULSE_DURATION_1
+
+              if (ROLL_TRIPLET_DIRECTION == 0){
+                auto_roll = ROLL_CMD_NOMINAL - ROLL_CMD_DELTA; //-MAX_PPRZ*2/3;
+              }else {
+                auto_roll = ROLL_CMD_NOMINAL + ROLL_CMD_DELTA; //-MAX_PPRZ*2/3;
+              }
+
+              stabilization_attitude_run(autopilot_in_flight());
+              //      stabilization_cmd[COMMAND_THRUST]=radio_control.values[RADIO_THROTTLE];
+                    stabilization_cmd[COMMAND_THRUST]=THROTTLE_FACTOR*hover_throttle;
+
+              if ((timer - timer_save) > BFP_OF_REAL(1*PULSE_DURATION_1, 12)) {
+                if (REVERSE_ROLL_TRIPLET == 1) { // perform the 112 maneuver
+                  flip_state--;
+                  timer_save = timer;
+                }else{
+                  flip_state++;
+                  timer_save = timer;
+                }
+              }
+              break;
+
+            case 94:
+              // doublet 1*PULSE_DURATION_1
+
+              if (ROLL_TRIPLET_DIRECTION == 0){
+                auto_roll = ROLL_CMD_NOMINAL + ROLL_CMD_DELTA; //-MAX_PPRZ*2/3;
+              }else {
+                auto_roll = ROLL_CMD_NOMINAL - ROLL_CMD_DELTA; //-MAX_PPRZ*2/3;
+              }
+
+              stabilization_attitude_run(autopilot_in_flight());
+              //      stabilization_cmd[COMMAND_THRUST]=radio_control.values[RADIO_THROTTLE];
+                    stabilization_cmd[COMMAND_THRUST]=THROTTLE_FACTOR*hover_throttle;
+
+              if ((timer - timer_save) > BFP_OF_REAL(1*PULSE_DURATION_1, 12)) {
+                if (REVERSE_ROLL_TRIPLET == 1) { // perform the 112 maneuver
+                  flip_state--;
+                  timer_save = timer;
+                }else{
+                  flip_state++;
+                  timer_save = timer;
+                }
+              }
+              break;
+
+            case 95:
+              // end of manoeuver
+              auto_roll = ROLL_CMD_NOMINAL; //-MAX_PPRZ*2/3;
+              stabilization_attitude_run(autopilot_in_flight());
+              //      stabilization_cmd[COMMAND_THRUST]=radio_control.values[RADIO_THROTTLE];
+                    stabilization_cmd[COMMAND_THRUST]=THROTTLE_FACTOR*hover_throttle;
+
+              if ((timer - timer_save) > BFP_OF_REAL(STRAIGHT_FLIGHT_DURATION, 12)) {
+                flip_state = 100;
+                timer_save = timer;
+                auto_roll = 0;
+              }
+              break;
 
 
     //----------------------------------------------------------------------------------------------------------------------
