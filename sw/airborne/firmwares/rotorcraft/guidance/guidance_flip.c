@@ -158,33 +158,34 @@
 // #define ROLL_DOUBLET 1
 // #define DOUBLET_REPETITIONS 1
 
-// Roll pulse
-#define FIRST_THRUST_LEVEL 6500
-#define FIRST_THRUST_DURATION 0.0
-#define STRAIGHT_FLIGHT_DURATION 1.0
-#define THROTTLE_FACTOR 1.0 // 1.0 for hover, increase for increasing altitude
-#define PULSE_DURATION 0.1
-#define FINAL_THRUST_LEVEL 6500
-#define FINAL_THRUST_DURATION 0
-#define ROLL_CMD_NOMINAL 0 //-MAX_PPRZ*30/60 // angle of 30 degrees
-#define ROLL_CMD_DELTA -MAX_PPRZ*30/60 // 30 degree deflection
-#define ROLL_PULSE 1
-#define PULSE_DIRECTION 1 // 0 for left, 1 for right
-#define PULSE_REPETITIONS 1
-
-// // Roll doublet 3211
+// // Roll pulse
 // #define FIRST_THRUST_LEVEL 6500
 // #define FIRST_THRUST_DURATION 0.0
 // #define STRAIGHT_FLIGHT_DURATION 1.0
 // #define THROTTLE_FACTOR 1.0 // 1.0 for hover, increase for increasing altitude
-// #define PULSE_DURATION_1 0.1
+// #define PULSE_DURATION 0.1
 // #define FINAL_THRUST_LEVEL 6500
 // #define FINAL_THRUST_DURATION 0
 // #define ROLL_CMD_NOMINAL 0 //-MAX_PPRZ*30/60 // angle of 30 degrees
 // #define ROLL_CMD_DELTA -MAX_PPRZ*30/60 // 30 degree deflection
-// #define DOUBLET_3211 1
-// #define DOUBLET_3211_DIRECTION 0 // 0 for left, 1 for right
-// #define DOUBLET_3211_REPITITIONS 1
+// #define ROLL_PULSE 1
+// #define PULSE_DIRECTION 1 // 0 for left, 1 for right
+// #define PULSE_REPETITIONS 1
+
+// Roll doublet 3211
+#define FIRST_THRUST_LEVEL 6500
+#define FIRST_THRUST_DURATION 0.0
+#define STRAIGHT_FLIGHT_DURATION 1.0
+#define THROTTLE_FACTOR 1.0 // 1.0 for hover, increase for increasing altitude
+#define PULSE_DURATION_1 0.1
+#define FINAL_THRUST_LEVEL 6500
+#define FINAL_THRUST_DURATION 0
+#define ROLL_CMD_NOMINAL 0 //-MAX_PPRZ*30/60 // angle of 30 degrees
+#define ROLL_CMD_DELTA -MAX_PPRZ*30/60 // 30 degree deflection
+#define DOUBLET_3211 1
+#define DOUBLET_3211_DIRECTION 0 // 0 for left, 1 for right
+#define DOUBLET_3211_REPITITIONS 1
+#define REVERSE_1123 1 // 0 to perform 3211, 1 to perform 1123
 
 
 //// Pitch sweep
@@ -243,6 +244,9 @@
 #endif
 #ifndef DOUBLET_3211_REPITITIONS
 #define DOUBLET_3211_REPITITIONS 1
+#endif
+#ifndef REVERSE_1123
+#define REVERSE_1123 0
 #endif
 #ifndef PITCH_CMD_NOMINAL
 #define PITCH_CMD_NOMINAL 0
@@ -905,9 +909,16 @@ void guidance_flip_run(void)
             //      stabilization_cmd[COMMAND_THRUST]=radio_control.values[RADIO_THROTTLE];
                   stabilization_cmd[COMMAND_THRUST]=THROTTLE_FACTOR*hover_throttle;
 
+
+
             if ((timer - timer_save) > BFP_OF_REAL(STRAIGHT_FLIGHT_DURATION, 12)) {
-              flip_state++;
-              timer_save = timer;
+              if (REVERSE_1123 == 1) { // perform the 1123 maneuver
+                flip_state = 85;
+                timer_save = timer;
+              }else{
+                flip_state++;
+                timer_save = timer;
+              }
             }
             break;
           case 82:
@@ -923,9 +934,16 @@ void guidance_flip_run(void)
             //      stabilization_cmd[COMMAND_THRUST]=radio_control.values[RADIO_THROTTLE];
                   stabilization_cmd[COMMAND_THRUST]=THROTTLE_FACTOR*hover_throttle;
 
+
+
             if ((timer - timer_save) > BFP_OF_REAL(3*PULSE_DURATION_1, 12)) {
-              flip_state++;
-              timer_save = timer;
+              if (REVERSE_1123 == 1) { // perform the 1123 maneuver
+                flip_state = 86;
+                timer_save = timer;
+              }else{
+                flip_state++;
+                timer_save = timer;
+              }
             }
             break;
 
@@ -943,13 +961,18 @@ void guidance_flip_run(void)
                   stabilization_cmd[COMMAND_THRUST]=THROTTLE_FACTOR*hover_throttle;
 
             if ((timer - timer_save) > BFP_OF_REAL(2*PULSE_DURATION_1, 12)) {
-              flip_state++;
-              timer_save = timer;
+              if (REVERSE_1123 == 1) { // perform the 1123 maneuver
+                flip_state--;
+                timer_save = timer;
+              }else{
+                flip_state++;
+                timer_save = timer;
+              }
             }
             break;
 
           case 84:
-            // doublet 3*PULSE_DURATION_1
+            // doublet 1*PULSE_DURATION_1
 
             if (DOUBLET_3211_DIRECTION == 0){
               auto_roll = ROLL_CMD_NOMINAL + ROLL_CMD_DELTA; //-MAX_PPRZ*2/3;
@@ -962,13 +985,18 @@ void guidance_flip_run(void)
                   stabilization_cmd[COMMAND_THRUST]=THROTTLE_FACTOR*hover_throttle;
 
             if ((timer - timer_save) > BFP_OF_REAL(1*PULSE_DURATION_1, 12)) {
-              flip_state++;
-              timer_save = timer;
+              if (REVERSE_1123 == 1) { // perform the 1123 maneuver
+                flip_state--;
+                timer_save = timer;
+              }else{
+                flip_state++;
+                timer_save = timer;
+              }
             }
             break;
 
           case 85:
-            // doublet 3*PULSE_DURATION_1
+            // doublet 1*PULSE_DURATION_1
 
             if (DOUBLET_3211_DIRECTION == 0){
               auto_roll = ROLL_CMD_NOMINAL - ROLL_CMD_DELTA; //-MAX_PPRZ*2/3;
@@ -981,8 +1009,13 @@ void guidance_flip_run(void)
                   stabilization_cmd[COMMAND_THRUST]=THROTTLE_FACTOR*hover_throttle;
 
             if ((timer - timer_save) > BFP_OF_REAL(1*PULSE_DURATION_1, 12)) {
-              flip_state++;
-              timer_save = timer;
+              if (REVERSE_1123 == 1) { // perform the 1123 maneuver
+                flip_state--;
+                timer_save = timer;
+              }else{
+                flip_state++;
+                timer_save = timer;
+              }
             }
             break;
 
