@@ -176,7 +176,7 @@
 #define FIRST_THRUST_LEVEL 6500
 #define FIRST_THRUST_DURATION 0.0
 #define STRAIGHT_FLIGHT_DURATION 1.0
-#define THROTTLE_FACTOR 1.0 // 1.0 for hover, increase for increasing altitude
+#define THROTTLE_FACTOR 1.15 // 1.0 for hover, 1.15 for 30 degree deflection, 1.05 for 15 degree deflection
 #define PULSE_DURATION_1 0.042
 #define FINAL_THRUST_LEVEL 6500
 #define FINAL_THRUST_DURATION 0
