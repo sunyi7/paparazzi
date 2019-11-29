@@ -84,7 +84,7 @@ uint8_t ap_mode_of_3x2way_switch(void)
 #else
 
 #define THRESHOLD_1_PPRZ (MIN_PPRZ / 2)
-#define THRESHOLD_2_PPRZ (MAX_PPRZ / 2)
+#define THRESHOLD_2_PPRZ (0*MAX_PPRZ / 2)
 
 /** get autopilot mode as set by RADIO_MODE 3-way switch */
 uint8_t ap_mode_of_3way_switch(void)
@@ -149,4 +149,3 @@ void WEAK set_rotorcraft_commands(pprz_t *cmd_out, int32_t *cmd_in, bool in_flig
   cmd_out[COMMAND_YAW] = cmd_in[COMMAND_YAW];
   cmd_out[COMMAND_THRUST] = cmd_in[COMMAND_THRUST];
 }
-
