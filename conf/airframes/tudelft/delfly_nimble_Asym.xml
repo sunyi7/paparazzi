@@ -46,7 +46,7 @@
     </module>
           
     <module name="actuators" type="pwm">
-        <define name="SERVO_HZ" value="200"/>
+      <define name="SERVO_HZ" value="200"/>
       <define name="USE_SERVOS_1AND2"/>
     </module>
     
@@ -65,7 +65,7 @@
       <define name="FILTER_CMD_PITCH_CUTOFF" value="15.0"/>
       <define name="FILTER_CMD_YAW_CUTOFF" value="10.0"/>
       <define name="STABILIZATION_ATTITUDE_SP_PSI_DELTA_LIMIT" value="0.5"/>
-      <define name="USE_FLIP_MODE" value="1"/>
+     <!-- <define name="USE_FLIP_MODE" value="1"/-->
     </module>
     <module name="ahrs" type="int_cmpl_quat">
       <define name="AHRS_PROPAGATE_LOW_PASS_RATES" value="FALSE"/>
@@ -75,14 +75,14 @@
       <define name="SDLOGGER_CONTROL_SWITCH" value="RADIO_GEAR"/>
       <define name="LOGGER_LED" value="2"/> 
     </module>
-    <module name="adc_generic">
+    <!--<module name="adc_generic">
       <configure name="ADC_CHANNEL_GENERIC_NB_SAMPLES" value="1"/>
        <configure name="ADC_CHANNEL_GENERIC1" value="ADC_2"/>
        <configure name="ADC_CHANNEL_GENERIC2" value="ADC_3"/>
        <configure name="ADC_CHANNEL_GENERIC3" value="ADC_4"/>
        <configure name="ADC_CHANNEL_GENERIC4" value="ADC_6"/>
        <configure name="ADC_CHANNEL_VBAT" value="ADC_5"/>
-    </module>
+    </module> -->
   </firmware>
   
   <!-- ACTUATORS & COMMANDS %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%-->
@@ -111,6 +111,17 @@
     <servo name="WING_DEF" no="2" min="900" neutral="1500" max="2100"/>
   </servos>-->
 
+<!--Delfly Asym-->
+  <servos driver="Pwm">
+    <servo name="MOTOR_LEFT" no="1" min="1100" neutral="1100" max="1900"/> 
+      <servo name="MOTOR_RIGHT" no="0" min="1100" neutral="1100" max="1900"/>
+      <servo name="DIHEDRAL" no="3" min="1400" neutral="1650" max="1900"/>
+    <servo name="WING_DEF" no="2" min="900" neutral="1500" max="2100"/>
+   <servo name="WING_TILT" no="4" min="1300" neutral="1900" max="2100"/>
+  </servos>
+
+
+
   <commands>
     <axis name="PITCH" failsafe_value="0"/>
     <axis name="ROLL" failsafe_value="0"/>
@@ -123,7 +134,8 @@
     <set servo="MOTOR_LEFT" value="@THRUST+0.5*@ROLL+0.1*ABS(@ROLL)"/> 
       <set servo="MOTOR_RIGHT" value="@THRUST-0.5*@ROLL+0.1*ABS(@ROLL)"/>
       <set servo="DIHEDRAL" value="@PITCH"/>
-    <set servo="WING_DEF" value="@YAW"/>
+      <set servo="WING_DEF" value="@YAW"/>
+      <set servo="WING_TILT" value="RADIO_FLAP"/>
   </command_laws>
   
 
@@ -274,7 +286,7 @@
     <define name="JSBSIM_MODEL" value="simple_x_quad_ccw" type="string"/>
     <define name="SENSORS_PARAMS" value="nps_sensors_params_default.h" type="string"/>
   </section>
-  
+  <!--  -->
   <!--Motor mixing not used, presence necessary for a succesful build...-->
   <section name="MIXING" prefix="MOTOR_MIXING_">
     <define name="TRIM_ROLL" value="0"/>
@@ -286,6 +298,7 @@
     <define name="PITCH_COEF" value="{  256, -256, -256,  256 }"/>
     <define name="YAW_COEF" value="{    256, -256,  256, -256 }"/>
     <define name="THRUST_COEF" value="{ 256,  256,  256,  256 }"/>
+	<!--define name="TILT_COEF" value="{  256, -256, -256,  256 }"/-->
   </section>
   
 </airframe>

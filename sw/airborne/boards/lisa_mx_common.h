@@ -392,11 +392,11 @@
 //#endif
 
 // assigning ADC_6 to pin PA0 (ADC123_IN0)
-#define USE_ADC_6 1
-#define AD2_2_CHANNEL 0
+// #define USE_ADC_6 1
+// #define AD2_2_CHANNEL 0
 #define ADC_6 AD2_2
-#define ADC_6_GPIO_PORT GPIOA
-#define ADC_6_GPIO_PIN GPIO0
+#define ADC_6_GPIO_PORT GPIOC
+#define ADC_6_GPIO_PIN GPIO2
 
 #if USE_ADC_7
 #define AD2_3_CHANNEL 3
@@ -503,17 +503,17 @@
 #endif
 
 // commented out not to interfere with the additional ADC on the same pin
-//#if USE_PWM5
-//#define PWM_SERVO_5 4
-//#define PWM_SERVO_5_TIMER TIM5
-//#define PWM_SERVO_5_GPIO GPIOA
-//#define PWM_SERVO_5_PIN GPIO0
-//#define PWM_SERVO_5_AF GPIO_AF2
-//#define PWM_SERVO_5_OC TIM_OC1
-//#define PWM_SERVO_5_OC_BIT (1<<0)
-//#else
+#if USE_PWM5
+#define PWM_SERVO_5 4
+#define PWM_SERVO_5_TIMER TIM5
+#define PWM_SERVO_5_GPIO GPIOA
+#define PWM_SERVO_5_PIN GPIO0
+#define PWM_SERVO_5_AF GPIO_AF2
+#define PWM_SERVO_5_OC TIM_OC1
+#define PWM_SERVO_5_OC_BIT (1<<0)
+#else
 #define PWM_SERVO_5_OC_BIT 0
-//#endif
+#endif
 
 #if USE_PWM6
 #define PWM_SERVO_6 5
