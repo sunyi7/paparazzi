@@ -70,6 +70,8 @@
 PRINT_CONFIG_VAR(SDLOGGER_SPI_LINK_DEVICE)
 PRINT_CONFIG_VAR(SDLOGGER_SPI_LINK_SLAVE_NUMBER)
 
+int16_t tilt_servo=0;
+
 
 struct sdlogger_spi_periph sdlogger_spi;
 
@@ -119,6 +121,8 @@ void sdlogger_spi_direct_init(void)
 void sdlogger_spi_direct_periodic(void)
 {
   sdcard_spi_periodic(&sdcard1);
+
+tilt_servo=radio_control.values[5];
 
 #if SDLOGGER_ON_ARM
   if(autopilot_get_motors_on()) {

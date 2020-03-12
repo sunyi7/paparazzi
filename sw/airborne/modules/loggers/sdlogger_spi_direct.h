@@ -64,6 +64,8 @@ struct sdlogger_spi_periph{
 
 extern struct sdlogger_spi_periph sdlogger_spi;
 
+extern int16_t tilt_servo;
+
 extern void sdlogger_spi_direct_init(void);
 extern void sdlogger_spi_direct_periodic(void);
 extern void sdlogger_spi_direct_start(void);
