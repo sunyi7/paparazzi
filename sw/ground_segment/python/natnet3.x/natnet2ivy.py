@@ -62,8 +62,10 @@ parser = argparse.ArgumentParser(formatter_class=argparse.ArgumentDefaultsHelpFo
 parser.add_argument('-ac', action='append', nargs=2,
                     metavar=('rigid_id','ac_id'), help='pair of rigid body and A/C id (multiple possible)')
 parser.add_argument('-b', '--ivy_bus', dest='ivy_bus', help="Ivy bus address and port")
-parser.add_argument('-s', '--server', dest='server', default="127.0.0.1", help="NatNet server IP address")
-parser.add_argument('-m', '--multicast_addr', dest='multicast', default="239.255.42.99", help="NatNet server multicast address")
+#parser.add_argument('-s', '--server', dest='server', default="127.0.0.1", help="NatNet server IP address")
+parser.add_argument('-s', '--server', dest='server', default="192.168.209.128", help="NatNet server IP address")
+#parser.add_argument('-m', '--multicast_addr', dest='multicast', default="239.255.42.99", help="NatNet server multicast address")
+parser.add_argument('-m', '--multicast_addr', dest='multicast', default="192.168.209.255", help="NatNet server multicast address")
 parser.add_argument('-dp', '--data_port', dest='data_port', type=int, default=1511, help="NatNet server data socket UDP port")
 parser.add_argument('-cp', '--command_port', dest='command_port', type=int, default=1510, help="NatNet server command socket UDP port")
 parser.add_argument('-v', '--verbose', dest='verbose', action='store_true', help="display debug messages")
