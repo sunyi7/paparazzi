@@ -172,36 +172,36 @@
 // #define PULSE_DIRECTION 1 // 0 for left, 1 for right
 // #define PULSE_REPETITIONS 1
 
-// Roll doublet 3211
-#define FIRST_THRUST_LEVEL 6500
-#define FIRST_THRUST_DURATION 0.0
-#define STRAIGHT_FLIGHT_DURATION 1.0
-#define THROTTLE_FACTOR 1.15 // 1.0 for hover, 1.15 for 30 degree deflection, 1.05 for 15 degree deflection
-#define PULSE_DURATION_1 0.046
-#define FINAL_THRUST_LEVEL 6500
-#define FINAL_THRUST_DURATION 0
-#define ROLL_CMD_NOMINAL 0 //-MAX_PPRZ*30/60 // angle of 30 degrees
-#define ROLL_CMD_DELTA -MAX_PPRZ*30/60 // 30 degree deflection
-#define DOUBLET_3211 1
-#define DOUBLET_3211_DIRECTION 0 // 0 for left, 1 for right
-#define DOUBLET_3211_REPITITIONS 1
-#define REVERSE_1123 1 // 0 to perform 3211, 1 to perform 1123
-
-// Roll Triplet 211
-
+// // Roll doublet 3211
 // #define FIRST_THRUST_LEVEL 6500
 // #define FIRST_THRUST_DURATION 0.0
 // #define STRAIGHT_FLIGHT_DURATION 1.0
-// #define THROTTLE_FACTOR 1.0 // 1.0 for hover, increase for increasing altitude
-// #define PULSE_DURATION_1 0.1
+// #define THROTTLE_FACTOR 1.15 // 1.0 for hover, 1.15 for 30 degree deflection, 1.05 for 15 degree deflection
+// #define PULSE_DURATION_1 0.046
 // #define FINAL_THRUST_LEVEL 6500
 // #define FINAL_THRUST_DURATION 0
 // #define ROLL_CMD_NOMINAL 0 //-MAX_PPRZ*30/60 // angle of 30 degrees
 // #define ROLL_CMD_DELTA -MAX_PPRZ*30/60 // 30 degree deflection
-// #define ROLL_TRIPLET 1
-// #define ROLL_TRIPLET_DIRECTION 0 // 0 for left, 1 for right
-// #define ROLL_TRIPLET_REPITITIONS 1
-// #define REVERSE_ROLL_TRIPLET 1 // 0 to perform 211, 1 to perform 112
+// #define DOUBLET_3211 1
+// #define DOUBLET_3211_DIRECTION 0 // 0 for left, 1 for right
+// #define DOUBLET_3211_REPITITIONS 1
+// #define REVERSE_1123 1 // 0 to perform 3211, 1 to perform 1123
+
+//Roll Triplet 211
+
+#define FIRST_THRUST_LEVEL 6500
+#define FIRST_THRUST_DURATION 0.0
+#define STRAIGHT_FLIGHT_DURATION 0.5
+#define THROTTLE_FACTOR 1.15 // 1.0 for hover, increase for increasing altitude
+#define PULSE_DURATION_1 0.07
+#define FINAL_THRUST_LEVEL 6500
+#define FINAL_THRUST_DURATION 0
+#define ROLL_CMD_NOMINAL 0 //-MAX_PPRZ*30/60 // angle of 30 degrees
+#define ROLL_CMD_DELTA -MAX_PPRZ*30/60 // 30 degree deflection
+#define ROLL_TRIPLET 1
+#define ROLL_TRIPLET_DIRECTION 0 // 0 for left, 1 for right
+#define ROLL_TRIPLET_REPITITIONS 1
+#define REVERSE_ROLL_TRIPLET 1 // 0 to perform 211, 1 to perform 112
 
 //// Pitch sweep
 //#define FIRST_THRUST_LEVEL 6500
