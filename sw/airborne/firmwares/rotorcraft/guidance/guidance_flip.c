@@ -193,7 +193,7 @@
 #define FIRST_THRUST_DURATION 0.0
 #define STRAIGHT_FLIGHT_DURATION 0.5
 #define THROTTLE_FACTOR 1.15 // 1.0 for hover, increase for increasing altitude
-#define PULSE_DURATION_1 0.07
+#define PULSE_DURATION_1 0.125
 #define FINAL_THRUST_LEVEL 6500
 #define FINAL_THRUST_DURATION 0
 #define ROLL_CMD_NOMINAL 0 //-MAX_PPRZ*30/60 // angle of 30 degrees

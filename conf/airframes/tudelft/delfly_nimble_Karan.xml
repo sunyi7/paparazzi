@@ -192,8 +192,8 @@
     <define name="REF_MAX_RDOT" value="RadOfDeg(900.)"/>
     
     <!-- feedback -->
-    <define name="PHI_PGAIN" value="6750"/> <!-- Increase for more agressive manoeuvre, original gain is 3000 -->
-    <define name="PHI_DGAIN" value="950"/>  <!-- Decrease for more agressive manoeuvre, original gain is 750 -->
+    <define name="PHI_PGAIN" value="3000"/> <!-- Increase for more agressive manoeuvre, original gain is 3000 -->
+    <define name="PHI_DGAIN" value="750"/>  <!-- Decrease for more agressive manoeuvre, original gain is 750 -->
     <define name="PHI_IGAIN" value="0"/>
     
     <define name="THETA_PGAIN" value="7800"/> 
