@@ -99,7 +99,7 @@
   <servos driver="Pwm">
     <servo name="MOTOR_LEFT" no="1" min="1100" neutral="1100" max="1900"/> 
       <servo name="MOTOR_RIGHT" no="0" min="1100" neutral="1100" max="1900"/>
-      <servo name="DIHEDRAL" no="3" min="1400" neutral="1650" max="1900"/>
+      <servo name="DIHEDRAL" no="3" min="1375" neutral="1625" max="1875"/>
     <servo name="WING_DEF" no="2" min="950" neutral="1550" max="2150"/>
   </servos>
 
@@ -192,8 +192,8 @@
     <define name="REF_MAX_RDOT" value="RadOfDeg(900.)"/>
     
     <!-- feedback -->
-    <define name="PHI_PGAIN" value="3000"/> <!-- Increase for more agressive manoeuvre, original gain is 3000 -->
-    <define name="PHI_DGAIN" value="750"/>  <!-- Decrease for more agressive manoeuvre, original gain is 750 -->
+    <define name="PHI_PGAIN" value="6750"/> <!-- Increase for more agressive manoeuvre, original gain is 3000 -->
+    <define name="PHI_DGAIN" value="950"/>  <!-- Decrease for more agressive manoeuvre, original gain is 750 -->
     <define name="PHI_IGAIN" value="0"/>
     
     <define name="THETA_PGAIN" value="7800"/> 
