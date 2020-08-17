@@ -41,6 +41,7 @@ uint16_t adc_val3;
 uint16_t adc_val4;
 uint16_t servo_pitch;
 uint16_t servo_yaw;
+double current_sensor;
 
 #ifndef ADC_CHANNEL_GENERIC_NB_SAMPLES
 #define ADC_CHANNEL_GENERIC_NB_SAMPLES DEFAULT_AV_NB_SAMPLE
@@ -54,34 +55,39 @@ uint16_t servo_yaw;
 #define ADC_GENERIC_PERIODIC_SEND TRUE
 #endif
 
-static struct adc_buf buf1;
+/*static struct adc_buf buf1;
 static struct adc_buf buf2;
-static struct adc_buf buf3;
+static struct adc_buf buf3;*/
 static struct adc_buf buf4;
 
 static void adc_msg_send(struct transport_tx *trans, struct link_device *dev) {
-  adc_val1 = buf1.sum / buf1.av_nb_sample;
+ /* adc_val1 = buf1.sum / buf1.av_nb_sample;
   adc_val2 = buf2.sum / buf2.av_nb_sample;
-  adc_val3 = buf3.sum / buf3.av_nb_sample;
+  adc_val3 = buf3.sum / buf3.av_nb_sample;*/
   adc_val4 = buf4.sum / buf4.av_nb_sample;
-  servo_pitch = 10000*adc_val1/adc_val3;
-  servo_yaw = 10000*adc_val2/adc_val4;
+  /*servo_pitch = 10000*adc_val1/adc_val3;
+  servo_yaw = 10000*adc_val2/adc_val4;*/
+  current_sensor= 36.7*((adc_val4 *3 / 4096.0)/3.3)-18.3;
+  /*pprz_msg_send_ADC_GENERIC(trans, dev, AC_ID, &adc_val1, &adc_val2, &adc_val3, &adc_val4, &servo_pitch, &servo_yaw);
+*/
 
-  pprz_msg_send_ADC_GENERIC(trans, dev, AC_ID, &adc_val1, &adc_val2, &adc_val3, &adc_val4, &servo_pitch, &servo_yaw);
+pprz_msg_send_ADC_GENERIC(trans, dev, AC_ID, &adc_val4, &current_sensor);
 }
 
 void adc_generic_init(void)
 {
-  adc_val1 = 0;
+  /*adc_val1 = 0;
   adc_val2 = 0;
-  adc_val3 = 0;
+  adc_val3 = 0;*/
   adc_val4 = 0;
-  servo_pitch = 0;
-  servo_yaw = 0;
+ /* servo_pitch = 0;
+  servo_yaw = 0;*/
+  current_sensor=0.0;
 
-  adc_buf_channel(ADC_2, &buf1, ADC_CHANNEL_GENERIC_NB_SAMPLES);
+
+  /*adc_buf_channel(ADC_2, &buf1, ADC_CHANNEL_GENERIC_NB_SAMPLES);
   adc_buf_channel(ADC_3, &buf2, ADC_CHANNEL_GENERIC_NB_SAMPLES);
-  adc_buf_channel(ADC_4, &buf3, ADC_CHANNEL_GENERIC_NB_SAMPLES);
+  adc_buf_channel(ADC_4, &buf3, ADC_CHANNEL_GENERIC_NB_SAMPLES);*/
   adc_buf_channel(ADC_6, &buf4, ADC_CHANNEL_GENERIC_NB_SAMPLES);
 
 #if PERIODIC_TELEMETRY

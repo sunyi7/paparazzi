@@ -57,7 +57,7 @@
     </module>
     
     <module name="imu" type="lisa_mx_v2.1"/>
-    <module name="gps" type="ublox"/>
+    <module name="gps" type="datalink"/>
     <module name="stabilization" type="int_euler">
       <define name="FILTER_CMD_ROLL_PITCH" value="1"/>
       <define name="FILTER_CMD_YAW" value="1"/>
@@ -77,9 +77,9 @@
     </module>
     <module name="adc_generic">
       <configure name="ADC_CHANNEL_GENERIC_NB_SAMPLES" value="1"/>
-       <configure name="ADC_CHANNEL_GENERIC1" value="ADC_2"/>
+       <!--<configure name="ADC_CHANNEL_GENERIC1" value="ADC_2"/>
        <configure name="ADC_CHANNEL_GENERIC2" value="ADC_3"/>
-       <configure name="ADC_CHANNEL_GENERIC3" value="ADC_4"/>
+       <configure name="ADC_CHANNEL_GENERIC3" value="ADC_4"/-->
        <configure name="ADC_CHANNEL_GENERIC4" value="ADC_6"/>
        <configure name="ADC_CHANNEL_VBAT" value="ADC_5"/>
     </module>
@@ -153,6 +153,7 @@
     <define name="H_Y" value="0.00278894"/>
     <define name="H_Z" value="0.92060036"/>
     <define name="USE_GPS_HEADING" value="1"/>
+    <define name="HEADING_UPDATE_GPS_MIN_SPEED" value="0"/>
     
     <!-- For vibrating airfames -->
     <define name="GRAVITY_HEURISTIC_FACTOR" value="0"/>
