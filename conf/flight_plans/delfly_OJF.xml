@@ -1,6 +1,6 @@
 <!DOCTYPE flight_plan SYSTEM "flight_plan.dtd">
 
-<flight_plan alt="1.25" ground_alt="0" lat0="51.990634" lon0="4.376789" max_dist_from_home="20" name="Rotorcraft Optitrack (Delft)" security_height="0.3">
+<flight_plan alt="2.0" ground_alt="0" lat0="51.990634" lon0="4.376789" max_dist_from_home="20" name="Rotorcraft Optitrack (Delft)" security_height="0.3">
   <header>
 #include "autopilot.h"
 </header>
@@ -10,18 +10,18 @@
     <waypoint name="GOAL" x="0.0" y="0.0"/>
     <waypoint name="STDBY" x="0.0" y="0.0"/>
     <waypoint name="TD" x="0.0" y="0.0"/>
-    <waypoint name="p1" x="0.5" y="0.0"/>
-    <waypoint name="p2" x="0.5" y="0.5"/>
-    <waypoint name="p1m1" x="0.6" y="0.0"/>
+    <waypoint name="p1" lat="51.9906340" lon="4.3767889"/>
+    <waypoint name="p2" lat="51.9906418" lon="4.3767814"/> 
+    <!--waypoint name="p1m1" x="0.6" y="0.0"/>
     <waypoint name="p1m2" x="0.7" y="0.0"/>
     <waypoint name="p1m3" x="0.8" y="0.0"/>
     <waypoint name="p1p1" x="0.4" y="0.0"/>
     <waypoint name="p1p2" x="0.3" y="0.0"/>
-    <waypoint name="p1p3" x="0.2" y="0.0"/>
-    <waypoint name="FA1" x="0.0" y="1.5"/>
-    <waypoint name="FA2" x="0.0" y="-1.5"/>
-    <waypoint name="FA3" x="3.0" y="-1.5"/>
-    <waypoint name="FA4" x="3.0" y="1.5"/>
+    <waypoint name="p1p3" x="0.2" y="0.0"/-->
+    <waypoint name="FA1" lat="51.9906481" lon="4.3767576"/>
+    <waypoint name="FA2" lat="51.9906134" lon="4.3767851"/> 
+    <waypoint name="FA3" lat="51.9906184" lon="4.3768103"/>
+    <waypoint name="FA4" lat="51.9906598" lon="4.3767836"/>
   </waypoints>
   <sectors>
     <sector color="red" name="Flight_Area">
@@ -56,7 +56,7 @@
     <block name="stay_p1">
       <stay wp="p1"/>
     </block>
-    <block name="m 10 cm">
+    <!--block name="m 10 cm">
       <stay wp="p1m1"/>
     </block>
     <block name="m 20 cm">
@@ -73,7 +73,7 @@
     </block>
     <block name="p 30 cm">
       <stay wp="p1p3"/>
-    </block>
+    </block-->
     <block name="go_p2">
       <call_once fun="nav_set_heading_deg(90)"/>
       <go wp="p2"/>

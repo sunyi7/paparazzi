@@ -33,7 +33,7 @@
       
       <define name="USE_PERSISTENT_SETTINGS" value="FALSE"/>
       
-      <define name="USE_BARO_BOARD" value="1"/>
+      <define name="USE_BARO_BOARD" value="0"/>
       <!--define name="BARO_PERIODIC_FREQUENCY" value="100"/-->      
     </target>
     
@@ -237,6 +237,8 @@
   <section name="INS" prefix="INS_">
     <define name="USE_GPS_ALT" value="1"/>
     <define name="USE_GPS_ALT_SPEED" value="1"/>
+    <define name="VFF_R_GPS" value="0.01"/>
+    <define name="VFF_VZ_R_GPS" value="0.01"/>
   </section>
   
 <!--  <section name="GPS" prefix="GPS_"-->
@@ -250,7 +252,7 @@
     <define name="HOVER_KP" value="276"/> <!-- Karan's 276 -->
     <define name="HOVER_KD" value="300"/> <!-- Karan's 300 -->
     <define name="HOVER_KI" value="100"/> <!-- Karan's 100 -->
-    <define name="NOMINAL_HOVER_THROTTLE" value="0.83"/> <!-- Karan's 0.77  |  0.83 is max try to go lower-->
+    <define name="NOMINAL_HOVER_THROTTLE" value="0.8"/> <!-- Karan's 0.77 | 0.83 is max try to go lower-->
     <define name="ADAPT_THROTTLE_ENABLED" value="FALSE"/>
     <define name="GUIDANCE_V_MAX_CMD" value="9200"/>   
   </section>
