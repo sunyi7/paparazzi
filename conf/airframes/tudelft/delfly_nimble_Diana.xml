@@ -249,10 +249,10 @@
 <!--  </section-->
   
   <section name="GUIDANCE_V" prefix="GUIDANCE_V_">
-    <define name="HOVER_KP" value="276"/> <!-- Karan's 276 -->
-    <define name="HOVER_KD" value="300"/> <!-- Karan's 300 -->
-    <define name="HOVER_KI" value="100"/> <!-- Karan's 100 -->
-    <define name="NOMINAL_HOVER_THROTTLE" value="0.8"/> <!-- Karan's 0.77 | 0.83 is max try to go lower-->
+    <define name="HOVER_KP" value="450"/> <!-- Karan's 276 --> <!--OJF:450-->
+    <define name="HOVER_KD" value="300"/> <!-- Karan's 300 --> 
+    <define name="HOVER_KI" value="0"/> <!-- Karan's 100 --> <!--OJF:0 for higher-->
+    <define name="NOMINAL_HOVER_THROTTLE" value="0.78"/> <!-- Karan's 0.77 | 0.83 is max try to go lower, OJF: 0.77-->
     <define name="ADAPT_THROTTLE_ENABLED" value="FALSE"/>
     <define name="GUIDANCE_V_MAX_CMD" value="9200"/>   
   </section>

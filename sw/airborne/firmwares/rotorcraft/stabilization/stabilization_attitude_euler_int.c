@@ -207,7 +207,7 @@ void stabilization_attitude_set_earth_cmd_i(struct Int32Vect2 *cmd, int32_t head
 #define OFFSET_AND_ROUND(_a, _b) (((_a)+(1<<((_b)-1)))>>(_b))
 #define OFFSET_AND_ROUND2(_a, _b) (((_a)+(1<<((_b)-1))-((_a)<0?1:0))>>(_b))
 
-#define MAX_SUM_ERR 4000000
+#define MAX_SUM_ERR 12000000
 
 void stabilization_attitude_run(bool  in_flight)
 {
