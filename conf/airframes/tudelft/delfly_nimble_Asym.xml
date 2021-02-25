@@ -95,21 +95,6 @@
     <servo name="WING_DEF" no="2" min="900" neutral="1500" max="2100"/>
   </servos-->
 
-<!--Delfly Karan
-  <servos driver="Pwm">
-    <servo name="MOTOR_LEFT" no="1" min="1100" neutral="1100" max="1900"/> 
-      <servo name="MOTOR_RIGHT" no="0" min="1100" neutral="1100" max="1900"/>
-      <servo name="DIHEDRAL" no="3" min="1400" neutral="1650" max="1900"/>
-    <servo name="WING_DEF" no="2" min="900" neutral="1500" max="2100"/>
-  </servos>-->
-
-<!--Delfly Demo
-  <servos driver="Pwm">
-    <servo name="MOTOR_LEFT" no="1" min="1100" neutral="1100" max="1900"/> 
-      <servo name="MOTOR_RIGHT" no="0" min="1100" neutral="1100" max="1900"/>
-      <servo name="DIHEDRAL" no="3" min="1400" neutral="1650" max="1900"/>
-    <servo name="WING_DEF" no="2" min="900" neutral="1500" max="2100"/>
-  </servos>-->
 
 <!--Delfly Asym-->
   <servos driver="Pwm">
@@ -117,7 +102,7 @@
       <servo name="MOTOR_RIGHT" no="0" min="1100" neutral="1100" max="1900"/>
       <servo name="DIHEDRAL" no="3" min="1400" neutral="1650" max="1900"/>
     <servo name="WING_DEF" no="2" min="900" neutral="1500" max="2100"/>
-   <servo name="WING_TILT" no="4" min="1100" neutral="1500" max="1900"/>
+   <servo name="WING_TILT" no="4" min="1100" neutral="1900" max="1900"/>
   </servos>
 
 
@@ -189,7 +174,7 @@
     <define name="SP_MAX_PHI" value="60." unit="deg"/>
     <define name="SP_MAX_THETA" value="75." unit="deg"/>
     <define name="SP_MAX_PSI" value="45." unit="deg"/>
-    <define name="SP_MAX_R" value="90." unit="deg/s"/>
+    <define name="SP_MAX_R" value="180." unit="deg/s"/>
     <define name="SP_MAX_P" value="90." unit="deg/s"/>
     <define name="DEADBAND_R" value="250"/>
     <define name="DEADBAND_A" value="250"/>
@@ -207,7 +192,7 @@
     
     <define name="REF_OMEGA_R" value="500" unit="deg/s"/>
     <define name="REF_ZETA_R" value="0.85"/>
-    <define name="REF_MAX_R" value="90." unit="deg/s"/>
+    <define name="REF_MAX_R" value="180." unit="deg/s"/>
     <define name="REF_MAX_RDOT" value="RadOfDeg(900.)"/>
     
     <!-- feedback -->
@@ -216,10 +201,10 @@
     <define name="PHI_IGAIN" value="0"/>
     
     <define name="THETA_PGAIN" value="7800"/> 
-    <define name="THETA_DGAIN" value="1000"/> 
+    <define name="THETA_DGAIN" value="600"/> 
     <define name="THETA_IGAIN" value="0"/>
     
-    <define name="PSI_PGAIN" value="4000"/>
+    <define name="PSI_PGAIN" value="1"/>
     <define name="PSI_DGAIN" value="0"/>
     <define name="PSI_IGAIN" value="0"/>
     <!--define name="PSI_DGAIN" value="800"/-->
