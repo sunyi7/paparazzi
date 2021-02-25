@@ -65,7 +65,7 @@
       <define name="FILTER_CMD_PITCH_CUTOFF" value="15.0"/>
       <define name="FILTER_CMD_YAW_CUTOFF" value="10.0"/>
       <define name="STABILIZATION_ATTITUDE_SP_PSI_DELTA_LIMIT" value="0.5"/>
-      <define name="USE_FLIP_MODE" value="0"/>
+      <define name="USE_FLIP_MODE" value="1"/>
     </module>
     <module name="ahrs" type="int_cmpl_quat">
       <define name="AHRS_PROPAGATE_LOW_PASS_RATES" value="FALSE"/>
@@ -101,8 +101,8 @@
     <servo name="MOTOR_LEFT" no="1" min="1100" neutral="1100" max="1900"/> 
       <servo name="MOTOR_RIGHT" no="0" min="1100" neutral="1100" max="1900"/>
       <servo name="DIHEDRAL" no="3" min="1400" neutral="1650" max="1900"/>
-    <servo name="WING_DEF" no="2" min="900" neutral="1500" max="2100"/>
-   <servo name="WING_TILT" no="4" min="1100" neutral="1900" max="1900"/>
+    <servo name="WING_DEF" no="2" min="1100" neutral="1700" max="2300"/>
+   <servo name="WING_TILT" no="4" min="1100" neutral="1100" max="1900"/>
   </servos>
 
 

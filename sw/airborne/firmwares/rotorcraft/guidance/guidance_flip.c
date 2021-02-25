@@ -108,28 +108,66 @@
 //#define FINAL_THRUST_DURATION 0.1
 
 //// Evasive maneuver - roll & pitch, angular limit
-//#define FIRST_THRUST_LEVEL 6500
-//#define FIRST_THRUST_DURATION 0.0
-//#define STRAIGHT_FLIGHT_DURATION 2.0
-//#define STOP_EVADE_ANGLE 30.0
-//#define FINAL_THRUST_LEVEL 6500
-//#define FINAL_THRUST_DURATION 0.8
-//#define EVADE_ROLL 1
-//#define ROLL_DELAY 0.0
-//#define PITCH_CMD_FINAL 0
-//#define PITCH_CMD_NOMINAL -MAX_PPRZ*2/3
+// #define FIRST_THRUST_LEVEL 6500
+// #define FIRST_THRUST_DURATION 0.0
+// #define STRAIGHT_FLIGHT_DURATION 1.0
+// #define STOP_EVADE_ANGLE 30.0
+// #define FINAL_THRUST_LEVEL 6500
+// #define FINAL_THRUST_DURATION 0.8
+// #define EVADE_ROLL 1
+// #define ROLL_DELAY 0.0
+// #define PITCH_CMD_FINAL 0
+// #define PITCH_CMD_NOMINAL -MAX_PPRZ*2/3
 
-//// Evasive maneuver - roll & pitch, time limit
-//#define FIRST_THRUST_LEVEL 6500
-//#define FIRST_THRUST_DURATION 0.0
-//#define STRAIGHT_FLIGHT_DURATION 1.0
-//#define STOP_EVADE_TIME 0.25
-//#define FINAL_THRUST_LEVEL 6500
-//#define FINAL_THRUST_DURATION 0.8
-//#define EVADE_ROLL_PITCH 1
-//#define ROLL_DELAY 0.0
-//#define PITCH_CMD_FINAL 0 //-MAX_PPRZ*1/4 //-MAX_PPRZ*1/3 // max pitch set to 60 deg!!!
-//#define PITCH_CMD_NOMINAL -MAX_PPRZ*2/3 //-MAX_PPRZ*1/2 // -MAX_PPRZ*2/3
+// Evasive maneuver - roll & pitch, time limit
+// #define FIRST_THRUST_LEVEL 6500
+// #define FIRST_THRUST_DURATION 0.0
+// #define STRAIGHT_FLIGHT_DURATION 1.0
+// #define STOP_EVADE_TIME 0.25
+// #define FINAL_THRUST_LEVEL 6500
+// #define FINAL_THRUST_DURATION 0.8
+// #define EVADE_ROLL_PITCH 1
+// #define ROLL_DELAY 0.0
+// #define PITCH_CMD_FINAL 0 //-MAX_PPRZ*1/4 //-MAX_PPRZ*1/3 // max pitch set to 60 deg!!!
+// #define PITCH_CMD_NOMINAL -MAX_PPRZ*2/3 //-MAX_PPRZ*1/2 // -MAX_PPRZ*2/3
+
+//// DIANA Evasive maneuver - roll & pitch, angular limit
+// #define FIRST_THRUST_LEVEL 6500
+// #define FIRST_THRUST_DURATION 0.0
+// #define STRAIGHT_FLIGHT_DURATION 0.0
+// #define STOP_EVADE_ANGLE 30.0
+// #define FINAL_THRUST_LEVEL 6500
+// #define FINAL_THRUST_DURATION 0.8
+// #define EVADE_ROLL 1
+// #define ROLL_DELAY 0.0
+// #define PITCH_CMD_FINAL 0
+// #define PITCH_CMD_NOMINAL -MAX_PPRZ*2/3
+
+//DIANA Evasive maneuver - roll & pitch, time limit
+// #define FIRST_THRUST_LEVEL 6500
+// #define FIRST_THRUST_DURATION 0.0
+// #define STRAIGHT_FLIGHT_DURATION 0.5
+// #define STOP_EVADE_TIME 1
+// #define FINAL_THRUST_LEVEL 6500
+// #define FINAL_THRUST_DURATION 0.8
+// #define EVADE_ROLL_PITCH 1
+// #define ROLL_DELAY 0.0
+// #define PITCH_CMD_FINAL 0 //-MAX_PPRZ*1/4 //-MAX_PPRZ*1/3 // max pitch set to 60 deg!!!
+// #define PITCH_CMD_NOMINAL -MAX_PPRZ*2/3 //-MAX_PPRZ*1/2 // -MAX_PPRZ*2/3
+
+// DIANA Roll pulse
+#define FIRST_THRUST_LEVEL 6500
+#define FIRST_THRUST_DURATION 0.0
+#define STRAIGHT_FLIGHT_DURATION 0.0
+#define THROTTLE_FACTOR 1.0 // 1.0 for hover, increase for increasing altitude
+#define PULSE_DURATION 1.5
+#define FINAL_THRUST_LEVEL 6500
+#define FINAL_THRUST_DURATION 0
+#define ROLL_CMD_NOMINAL 0 //-MAX_PPRZ*30/60 // angle of 30 degrees
+#define ROLL_CMD_DELTA -MAX_PPRZ*30/60 // 30 degree deflection
+#define ROLL_PULSE 1
+#define PULSE_DIRECTION 1 // 0 for left, 1 for right
+#define PULSE_REPETITIONS 1
 
 
 //// Pitch doublets
@@ -173,19 +211,19 @@
 // #define PULSE_REPETITIONS 1
 
 // Roll doublet 3211
-#define FIRST_THRUST_LEVEL 6500
-#define FIRST_THRUST_DURATION 0.0
-#define STRAIGHT_FLIGHT_DURATION 1.0
-#define THROTTLE_FACTOR 1.15 // 1.0 for hover, 1.15 for 30 degree deflection, 1.05 for 15 degree deflection
-#define PULSE_DURATION_1 0.042
-#define FINAL_THRUST_LEVEL 6500
-#define FINAL_THRUST_DURATION 0
-#define ROLL_CMD_NOMINAL 0 //-MAX_PPRZ*30/60 // angle of 30 degrees
-#define ROLL_CMD_DELTA -MAX_PPRZ*30/60 // 30 degree deflection
-#define DOUBLET_3211 1
-#define DOUBLET_3211_DIRECTION 0 // 0 for left, 1 for right
-#define DOUBLET_3211_REPITITIONS 1
-#define REVERSE_1123 1 // 0 to perform 3211, 1 to perform 1123
+// #define FIRST_THRUST_LEVEL 6500
+// #define FIRST_THRUST_DURATION 0.0
+// #define STRAIGHT_FLIGHT_DURATION 1.0
+// #define THROTTLE_FACTOR 1.15 // 1.0 for hover, 1.15 for 30 degree deflection, 1.05 for 15 degree deflection
+// #define PULSE_DURATION_1 0.042
+// #define FINAL_THRUST_LEVEL 6500
+// #define FINAL_THRUST_DURATION 0
+// #define ROLL_CMD_NOMINAL 0 //-MAX_PPRZ*30/60 // angle of 30 degrees
+// #define ROLL_CMD_DELTA -MAX_PPRZ*30/60 // 30 degree deflection
+// #define DOUBLET_3211 1
+// #define DOUBLET_3211_DIRECTION 0 // 0 for left, 1 for right
+// #define DOUBLET_3211_REPITITIONS 1
+// #define REVERSE_1123 1 // 0 to perform 3211, 1 to perform 1123
 
 // Roll Triplet 211
 
@@ -211,6 +249,9 @@
 //#define FINAL_THRUST_DURATION 0
 //#define PITCH_CMD_DELTA -MAX_PPRZ
 //#define PITCH_SWEEP 1
+
+
+
 
 // default values
 #ifndef STOP_ACCELERATE_CMD_ANGLE
@@ -362,19 +403,7 @@ pprz_t hover_throttle = 6500;
 
 uint32_t flip_counter;
 uint32_t doublet_cnt;
-uint32_t pulse_cnt;// #define FIRST_THRUST_LEVEL 6500
-// #define FIRST_THRUST_DURATION 0.0
-// #define STRAIGHT_FLIGHT_DURATION 1.0
-// #define THROTTLE_FACTOR 1.0 // 1.0 for hover, increase for increasing altitude
-// #define PULSE_DURATION_1 0.25
-// #define FINAL_THRUST_LEVEL 6500
-// #define FINAL_THRUST_DURATION 0
-// #define ROLL_CMD_NOMINAL 0 //-MAX_PPRZ*30/60 // angle of 30 degrees
-// #define ROLL_CMD_DELTA -MAX_PPRZ*30/60 // 15 degree deflection
-// #define DOUBLET_3211 1
-// #define DOUBLET_3211_DIRECTION 0 // 0 for left, 1 for right
-// #define DOUBLET_3211_REPITITIONS 1
-
+uint32_t pulse_cnt;
 uint8_t sequence_cnt;
 uint8_t flip_state;
 int32_t heading_save;
