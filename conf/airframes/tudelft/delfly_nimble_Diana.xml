@@ -103,11 +103,11 @@
     <servo name="WING_DEF" no="2" min="900" neutral="1500" max="2100"/>
   </servos-->
 
-<!-- Diana-->
+<!-- Sunyi-->
     <servo name="MOTOR_LEFT" no="1" min="1100" neutral="1100" max="1900"/> 
     <servo name="MOTOR_RIGHT" no="0" min="1100" neutral="1100" max="1900"/>
-    <servo name="DIHEDRAL" no="3" min="1450" neutral="1700" max="1950"/>
-    <servo name="WING_DEF" no="2" min="900" neutral="1500" max="2100"/>
+    <servo name="DIHEDRAL" no="3" min="1300" neutral="1550" max="1800"/>
+    <servo name="WING_DEF" no="2" min="950" neutral="1550" max="2150"/>
   </servos>
 
   <commands>
@@ -213,7 +213,7 @@
     <define name="THETA_DGAIN" value="1000"/> 
     <define name="THETA_IGAIN" value="0"/>
     
-    <define name="PSI_PGAIN" value="32000"/> <!-- Karan's 4000 -->
+    <define name="PSI_PGAIN" value="4000"/> <!-- Karan's 4000 -->
     <define name="PSI_DGAIN" value="0"/>
     <define name="PSI_IGAIN" value="0"/>
     <!--define name="PSI_DGAIN" value="800"/--> <!-- Karan's -->
@@ -225,9 +225,6 @@
     <define name="PHI_DDGAIN" value="0"/>
     <define name="THETA_DDGAIN" value="0"/>
     <define name="PSI_DDGAIN" value=" 0"/>
-
-
-	<define name="PSI_FFDGAIN" value="3055"/>
     
     <define name="PHI_AGAIN" value="0"/>
     <define name="THETA_AGAIN" value="0"/>
@@ -249,26 +246,26 @@
 <!--  </section-->
   
   <section name="GUIDANCE_V" prefix="GUIDANCE_V_">
-    <define name="HOVER_KP" value="450"/> <!-- Karan's 276 --> <!--OJF:450-->
+    <define name="HOVER_KP" value="276"/> <!-- Karan's 276 --> <!--OJF:450-->
     <define name="HOVER_KD" value="300"/> <!-- Karan's 300 --> 
-    <define name="HOVER_KI" value="0"/> <!-- Karan's 100 --> <!--OJF:0 for higher-->
-    <define name="NOMINAL_HOVER_THROTTLE" value="0.78"/> <!-- Karan's 0.77 | 0.83 is max try to go lower, OJF: 0.77-->
+    <define name="HOVER_KI" value="100"/> <!-- Karan's 100 --> <!--OJF:0 for higher-->
+    <define name="NOMINAL_HOVER_THROTTLE" value="0.77"/> <!-- Karan's 0.77 | 0.83 is max try to go lower, OJF: 0.77-->
     <define name="ADAPT_THROTTLE_ENABLED" value="FALSE"/>
     <define name="GUIDANCE_V_MAX_CMD" value="9200"/>   
   </section>
   
   
   <section name="GUIDANCE_H" prefix="GUIDANCE_H_">
-    <define name="PGAIN" value="1500"/>	<!-- Karan's 120 -->
-    <define name="DGAIN" value="150"/>	<!-- Karan's 40 -->
+    <define name="PGAIN" value="120"/>	<!-- Karan's 120 -->
+    <define name="DGAIN" value="40"/>	<!-- Karan's 40 -->
     <define name="IGAIN" value="0"/>	<!-- Karan's 0 -->
-    <define name="REF_MAX_SPEED" value="0.3"/> <!-- Karan's 0.5 -->
+    <define name="REF_MAX_SPEED" value="0.5"/> <!-- Karan's 0.5 -->
     <define name="USE_REF" value="FALSE"/>
     <define name="MAX_BANK" value="15" unit="deg"/>
   </section>
   
   <section name="NAVIGATION" prefix="NAV_">
-    <define name="CLIMB_VSPEED" value="0.5"/>  <!-- Karan's 1.0 -->
+    <define name="CLIMB_VSPEED" value="1.0"/>  <!-- Karan's 1.0 -->
     <define name="DESCEND_VSPEED" value="-0.5"/>
   </section>
   
